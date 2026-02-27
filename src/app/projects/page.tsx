@@ -5,7 +5,7 @@ import { ProjectCard } from '@/components/project-card'
 export const metadata: Metadata = {
   title: 'Projects',
   description:
-    'A collection of projects built by Pallab Das — full-stack apps, AI tools, and machine learning experiments.',
+    'A collection of projects built by me Wanna explore click below',
 }
 
 export default function ProjectsPage() {
@@ -14,21 +14,20 @@ export default function ProjectsPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 md:px-6">
-      <header className="mb-12">
+      <header className="mb-10">
         <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-primary">Building</p>
-        <h1 className="mb-3 text-3xl font-bold tracking-tight text-foreground">Projects</h1>
-        <p className="text-lg text-muted-foreground">
-          Things I&apos;ve built while learning — from ML experiments to full-stack apps.
-          All source code is on GitHub.
+        <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground">Projects</h1>
+        <p className="text-sm text-muted-foreground">
+          Things I'm crafting and receipes are available on github.
         </p>
       </header>
 
       {featured.length > 0 && (
-        <section className="mb-12">
-          <h2 className="mb-5 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+        <section className="mb-10">
+          <h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Featured
           </h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((project) => (
               <ProjectCard key={project.title} project={project} />
             ))}
@@ -38,10 +37,10 @@ export default function ProjectsPage() {
 
       {rest.length > 0 && (
         <section>
-          <h2 className="mb-5 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+          <h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Other Projects
           </h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {rest.map((project) => (
               <ProjectCard key={project.title} project={project} />
             ))}

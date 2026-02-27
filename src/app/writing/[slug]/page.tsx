@@ -33,18 +33,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'article',
       publishedTime: post.date,
       authors: ['Pallab Das'],
-      url: `${siteUrl}/posts/${post.slug}`,
+      url: `${siteUrl}/writing/${post.slug}`,
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description: post.description,
     },
-    alternates: { canonical: `${siteUrl}/posts/${post.slug}` },
+    alternates: { canonical: `${siteUrl}/writing/${post.slug}` },
   }
 }
 
-export default async function PostPage({ params }: Props) {
+export default async function WritingPostPage({ params }: Props) {
   const { slug } = await params
   const post = getPostBySlug(slug)
   if (!post) notFound()
@@ -83,11 +83,11 @@ export default async function PostPage({ params }: Props) {
       <article className="mx-auto max-w-3xl px-4 py-12 md:px-6">
         {/* Back link */}
         <Link
-          href="/posts"
+          href="/writing"
           className="mb-8 flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
-          All Posts
+          All Writing
         </Link>
 
         {/* Header */}
@@ -101,10 +101,12 @@ export default async function PostPage({ params }: Props) {
               <CalendarDays className="h-3.5 w-3.5" />
               {formattedDate}
             </span>
-            <span className="flex items-center gap-1.5">
-              <Clock className="h-3.5 w-3.5" />
-              {post.readingTime}
-            </span>
+            {post.type !== 'note' && (
+              <span className="flex items-center gap-1.5">
+                <Clock className="h-3.5 w-3.5" />
+                {post.readingTime}
+              </span>
+            )}
           </div>
           {post.tags.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
@@ -129,11 +131,11 @@ export default async function PostPage({ params }: Props) {
         {/* Footer nav */}
         <div className="flex justify-between">
           <Link
-            href="/posts"
+            href="/writing"
             className="flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            All Posts
+            All Writing
           </Link>
         </div>
       </article>

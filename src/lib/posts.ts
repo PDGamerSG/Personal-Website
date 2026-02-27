@@ -12,6 +12,7 @@ export interface Post {
   readingTime: string
   content: string
   featured?: boolean
+  type: 'post' | 'note'
 }
 
 export type PostMeta = Omit<Post, 'content'>
@@ -23,9 +24,9 @@ export function getAllPosts(): PostMeta[] {
 
   const fileNames = fs.readdirSync(postsDirectory)
   const posts = fileNames
-    .filter((name) => name.endsWith('.mdx'))
+    .filter((name) => name.endsWith('.mdx') || name.endsWith('.md'))
     .map((fileName) => {
-      const slug = fileName.replace(/\.mdx$/, '')
+      const slug = fileName.replace(/\.(mdx|md)$/, '')
       const fullPath = path.join(postsDirectory, fileName)
       const fileContents = fs.readFileSync(fullPath, 'utf8')
       const { data, content } = matter(fileContents)
@@ -39,6 +40,7 @@ export function getAllPosts(): PostMeta[] {
         tags: (data.tags as string[]) || [],
         readingTime: text,
         featured: (data.featured as boolean) || false,
+        type: (data.type as 'post' | 'note') || 'post',
       }
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -48,7 +50,9 @@ export function getAllPosts(): PostMeta[] {
 
 export function getPostBySlug(slug: string): Post | null {
   try {
-    const fullPath = path.join(postsDirectory, `${slug}.mdx`)
+    const mdxPath = path.join(postsDirectory, `${slug}.mdx`)
+    const mdPath = path.join(postsDirectory, `${slug}.md`)
+    const fullPath = fs.existsSync(mdxPath) ? mdxPath : mdPath
     const fileContents = fs.readFileSync(fullPath, 'utf8')
     const { data, content } = matter(fileContents)
     const { text } = readingTime(content)
@@ -61,6 +65,7 @@ export function getPostBySlug(slug: string): Post | null {
       tags: (data.tags as string[]) || [],
       readingTime: text,
       featured: (data.featured as boolean) || false,
+      type: (data.type as 'post' | 'note') || 'post',
       content,
     }
   } catch {

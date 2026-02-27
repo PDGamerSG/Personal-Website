@@ -41,8 +41,9 @@ if (fs.existsSync(filePath)) {
 const template = `---
 title: "${title}"
 date: "${today}"
-description: "Add a short one-line description here (shown in post listings and SEO)"
+description: "Add a short one-line description here (shown in listings and SEO)"
 tags: ["Tag1", "Tag2"]
+type: "post"
 featured: false
 ---
 
@@ -71,6 +72,9 @@ console.log(`
 ✅  Post created!
 
 📄  File  : content/posts/${slug}.mdx
-📝  Edit  : Open the file above and fill in the content.
-🚀  Done  : Save the file and it will appear on /posts automatically.
+📝  Edit  : Open the file and fill in your content.
+🚀  Done  : Save the file — it will appear on /writing automatically.
+
+  type: "post"  → full article with its own page
+  type: "note"  → short note, shows inline in the list
 `)

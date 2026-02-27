@@ -1,77 +1,91 @@
 import Link from 'next/link'
-import { Badge } from '@/components/ui/badge'
-import { ExternalLink, Github, Wrench, CheckCircle2, FlaskConical } from 'lucide-react'
+import { ExternalLink, Github } from 'lucide-react'
 import type { Project } from '@/lib/projects'
 
 interface ProjectCardProps {
   project: Project
 }
 
-const statusConfig = {
-  completed: { label: 'Completed', icon: CheckCircle2, className: 'text-emerald-500' },
-  'in-progress': { label: 'In Progress', icon: Wrench, className: 'text-amber-500' },
-  research: { label: 'Research', icon: FlaskConical, className: 'text-violet-500' },
+const statusDot: Record<Project['status'], string> = {
+  completed: 'bg-emerald-500',
+  'in-progress': 'bg-amber-500',
+  research: 'bg-violet-500',
 }
 
+const statusLabel: Record<Project['status'], string> = {
+  completed: 'Completed',
+  'in-progress': 'In progress',
+  research: 'Research',
+}
+
+const MAX_TAGS = 3
+
 export function ProjectCard({ project }: ProjectCardProps) {
-  const status = statusConfig[project.status]
-  const StatusIcon = status.icon
+  const visibleTags = project.tags.slice(0, MAX_TAGS)
+  const extraTags = project.tags.length - MAX_TAGS
 
   return (
-    <article className="group flex flex-col rounded-xl border border-border/50 bg-card p-5 transition-all duration-200 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
-      {/* Status badge */}
-      <div className="mb-3 flex items-center justify-between gap-2">
-        <span
-          className={`flex items-center gap-1 text-xs font-semibold ${status.className}`}
-        >
-          <StatusIcon className="h-3.5 w-3.5" />
-          {status.label}
-        </span>
+    <article className="group flex flex-col gap-2.5 rounded-lg border border-border/50 bg-card p-4 transition-all duration-200 hover:border-primary/40 hover:shadow-md hover:shadow-primary/5">
+      {/* Header row: title + links */}
+      <div className="flex items-start justify-between gap-2">
+        <h2 className="text-sm font-semibold leading-snug text-card-foreground">
+          {project.title}
+        </h2>
+        <div className="flex shrink-0 items-center gap-2 pt-0.5">
+          {project.github && (
+            <Link
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="GitHub"
+              className="text-muted-foreground/60 transition-colors hover:text-foreground"
+            >
+              <Github className="h-3.5 w-3.5" />
+            </Link>
+          )}
+          {project.demo && (
+            <Link
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Live demo"
+              className="text-muted-foreground/60 transition-colors hover:text-foreground"
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+            </Link>
+          )}
+        </div>
       </div>
 
-      {/* Title */}
-      <h2 className="mb-2 text-base font-semibold leading-snug text-card-foreground">
-        {project.title}
-      </h2>
-
-      {/* Description */}
-      <p className="mb-4 flex-1 text-sm text-muted-foreground leading-relaxed">
+      {/* Description — 2 lines max */}
+      <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
         {project.description}
       </p>
 
-      {/* Tags */}
-      <div className="mb-4 flex flex-wrap gap-1.5">
-        {project.tags.map((tag) => (
-          <Badge key={tag} variant="secondary" className="text-xs">
-            {tag}
-          </Badge>
-        ))}
-      </div>
-
-      {/* Links */}
-      <div className="flex items-center gap-4 pt-1 border-t border-border/40">
-        {project.github && (
-          <Link
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <Github className="h-4 w-4" />
-            GitHub
-          </Link>
-        )}
-        {project.demo && (
-          <Link
-            href={project.demo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <ExternalLink className="h-4 w-4" />
-            Live Demo
-          </Link>
-        )}
+      {/* Footer: tags + status dot */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-wrap gap-1">
+          {visibleTags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-sm bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground"
+            >
+              {tag}
+            </span>
+          ))}
+          {extraTags > 0 && (
+            <span className="rounded-sm bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+              +{extraTags}
+            </span>
+          )}
+        </div>
+        <span
+          className="flex shrink-0 items-center gap-1 text-[10px] text-muted-foreground/70"
+          title={statusLabel[project.status]}
+        >
+          <span className={`h-1.5 w-1.5 rounded-full ${statusDot[project.status]}`} />
+          {statusLabel[project.status]}
+        </span>
       </div>
     </article>
   )

@@ -1,18 +1,30 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Fraunces, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
+import { PageTransition } from '@/components/page-transition'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const fraunces = Fraunces({
+  variable: '--font-display',
   subsets: ['latin'],
+  weight: ['400', '600', '700'],
+  display: 'swap',
 })
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const jakartaSans = Plus_Jakarta_Sans({
+  variable: '--font-sans',
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: '--font-mono',
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  display: 'swap',
 })
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pallabdas.dev'
@@ -50,7 +62,6 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: siteUrl,
-    types: { 'application/rss+xml': `${siteUrl}/rss.xml` },
   },
 }
 
@@ -62,6 +73,7 @@ const jsonLd = {
   sameAs: [
     'https://github.com/PDGamerSG',
     'https://twitter.com/PDGamerSG',
+    'https://www.linkedin.com/in/das-pallab/',
   ],
   jobTitle: 'Full-Stack & AI/ML Developer',
   description:
@@ -79,10 +91,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}>
+      <body className={`${fraunces.variable} ${jakartaSans.variable} ${jetbrainsMono.variable} antialiased min-h-screen flex flex-col`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <Header />
-          <main className="flex-1">{children}</main>
+          <PageTransition>{children}</PageTransition>
           <Footer />
         </ThemeProvider>
       </body>

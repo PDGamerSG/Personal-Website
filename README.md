@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# pallabdas.dev — Personal Website
 
-## Getting Started
+> 🌐 **Live:** <!-- add your URL here -->
 
-First, run the development server:
+My personal corner of the internet — a minimal, fast personal site where I write about what I'm building and learning, showcase projects, and share a bit about who I am.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ Features
+
+- **MDX Blog** — write posts in `.md` or `.mdx`, push to deploy, shows up automatically
+- **Dark / Light mode** — smooth animated theme toggle, defaults to dark
+- **Fully static** — all pages pre-rendered at build time, fast everywhere
+- **SEO ready** — Open Graph, Twitter cards, JSON-LD structured data, sitemap, robots.txt
+- **Page transitions** — subtle fade + slide animation between routes
+- **Responsive** — custom animated hamburger menu on mobile
+- **GitHub Activity** — live contribution heatmap (no token required)
+- **Typing Stats** — MonkeyType profile heatmap via API
+
+---
+
+## 🛠 Tech Stack
+
+| Layer | Tech |
+|---|---|
+| Framework | [Next.js 16](https://nextjs.org) (App Router) |
+| Styling | [Tailwind CSS v4](https://tailwindcss.com) |
+| Components | [shadcn/ui](https://ui.shadcn.com) |
+| Content | MDX via [next-mdx-remote](https://github.com/hashicorp/next-mdx-remote) |
+| Fonts | Fraunces · Plus Jakarta Sans · JetBrains Mono |
+| Deployment | [Vercel](https://vercel.com) |
+| Language | TypeScript |
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── app/
+│   ├── page.tsx          # Homepage
+│   ├── about/            # About + GitHub + Typing stats + Uses
+│   ├── writing/          # Blog list + Learning/Reading + post [slug]
+│   └── projects/         # Projects grid
+├── components/
+│   ├── header.tsx        # Sticky nav with animated mobile menu
+│   ├── footer.tsx
+│   ├── github-stats.tsx  # Live GitHub heatmap
+│   └── monkeytype-stats.tsx
+├── lib/
+│   ├── posts.ts          # MDX post loader
+│   ├── projects.ts       # Projects data
+│   ├── now.ts            # Currently learning / reading / crafting
+│   └── uses.ts           # Setup & tools
+content/
+└── posts/                # Your .md / .mdx blog posts go here
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✍️ Adding a Blog Post
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Create a new file in `content/posts/` — e.g. `my-post.md`
+2. Add frontmatter at the top:
 
-## Learn More
+```md
+---
+title: "My Post Title"
+description: "A short description shown in the listing."
+date: "2026-03-01"
+tags: ["nextjs", "web"]
+type: "post"   # or "note" for short-form
+---
 
-To learn more about Next.js, take a look at the following resources:
+Your content here...
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Push to GitHub → Vercel auto-deploys → post appears on `/writing`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🚀 Running Locally
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# 1. Clone
+git clone https://github.com/PDGamerSG/Personal-Website.git
+cd Personal-Website
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# 2. Install
+npm install
+
+# 3. Set up env (optional — needed for MonkeyType stats)
+cp .env.example .env.local
+# Add MONKEYTYPE_API_KEY and NEXT_PUBLIC_SITE_URL
+
+# 4. Run
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+---
+
+## 🔑 Environment Variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `NEXT_PUBLIC_SITE_URL` | Recommended | Full URL of your site e.g. `https://pallabdas.dev` |
+| `MONKEYTYPE_API_KEY` | Optional | Enables typing heatmap on the About page |
+
+---
+
+## 📜 License
+
+MIT — feel free to fork and make it your own. A credit back is appreciated but not required.

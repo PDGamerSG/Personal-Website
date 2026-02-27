@@ -20,12 +20,19 @@ export function ThemeToggle() {
     )
   }
 
+  const toggleTheme = () => {
+    const root = document.documentElement
+    root.classList.add('theme-transitioning')
+    setTheme(theme === 'dark' ? 'light' : 'dark')
+    window.setTimeout(() => root.classList.remove('theme-transitioning'), 200)
+  }
+
   return (
     <Button
       variant="ghost"
       size="icon"
       className="h-9 w-9"
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      onClick={toggleTheme}
       aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
     >
       {theme === 'dark' ? (
