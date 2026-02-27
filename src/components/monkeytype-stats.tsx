@@ -1,4 +1,4 @@
-import { Keyboard, Flame, Zap, ExternalLink } from 'lucide-react'
+import { Keyboard, Flame, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 
 interface TypingResult {
@@ -245,7 +245,6 @@ export async function MonkeyTypeStats() {
     .map((m) => ({ mode: `${m}s`, wpm: getBestWpm(profile.personalBests?.time?.[m]) }))
     .filter((s) => s.wpm !== null)
 
-  const overallBest = wpmStats.length ? Math.max(...wpmStats.map((s) => s.wpm as number)) : null
   const streak = profile.streak?.length ?? 0
   const maxStreak = profile.streak?.maxLength ?? 0
 
@@ -274,15 +273,6 @@ export async function MonkeyTypeStats() {
       <div className="rounded-xl border border-border/50 bg-card overflow-hidden">
         {/* Top stats banner */}
         <div className="flex flex-wrap gap-px border-b border-border/40">
-          {overallBest !== null && (
-            <div className="flex flex-1 min-w-[120px] flex-col items-center gap-0.5 bg-background/30 px-5 py-4">
-              <div className="flex items-center gap-1.5 mb-1">
-                <Zap className="h-3.5 w-3.5 text-yellow-500" />
-                <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Best WPM</span>
-              </div>
-              <span className="text-3xl font-bold text-foreground tabular-nums">{overallBest}</span>
-            </div>
-          )}
           {streak > 0 && (
             <div className="flex flex-1 min-w-[120px] flex-col items-center gap-0.5 bg-background/30 px-5 py-4">
               <div className="flex items-center gap-1.5 mb-1">
@@ -312,11 +302,6 @@ export async function MonkeyTypeStats() {
             <p className="text-[11px] text-muted-foreground/60">{rangeLabel}</p>
           </div>
           <TypingHeatmap results={results} />
-          {results.length === 0 && (
-            <p className="mt-2 text-center text-[11px] text-muted-foreground/50">
-              Add <code className="font-mono">MONKEYTYPE_API_KEY</code> to <code className="font-mono">.env.local</code> to fill in the heatmap
-            </p>
-          )}
         </div>
       </div>
     </section>

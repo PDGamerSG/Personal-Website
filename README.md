@@ -1,4 +1,4 @@
-# pallabdas.dev — Personal Website
+# Personal Website
 
 > 🌐 **Live:** <!-- add your URL here -->
 

@@ -45,7 +45,7 @@ export function Header() {
           className="flex items-center gap-2 font-semibold text-foreground transition-opacity hover:opacity-80"
           style={{ fontFamily: 'var(--font-display)' }}
         >
-          <span>Pallab Das :)</span>
+          <span>Pallab Das</span>
         </Link>
 
         {/* Desktop nav */}
