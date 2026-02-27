@@ -32,7 +32,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pallabdas.dev'
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Pallab Das — Full-Stack & AI/ML Developer',
+    default: 'Pallab Das',
     template: '%s | Pallab Das',
   },
   description:
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: siteUrl,
     siteName: 'Pallab Das',
-    title: 'Pallab Das — Full-Stack & AI/ML Developer',
+    title: 'Pallab Das',
     description:
       'Personal website of Pallab Das — sharing learnings in full-stack development, AI, and machine learning.',
   },
