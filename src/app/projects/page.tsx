@@ -9,9 +9,6 @@ export const metadata: Metadata = {
 }
 
 export default function ProjectsPage() {
-  const featured = projects.filter((p) => p.featured)
-  const rest = projects.filter((p) => !p.featured)
-
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 md:px-6">
       <header className="mb-10">
@@ -22,31 +19,11 @@ export default function ProjectsPage() {
         </p>
       </header>
 
-      {featured.length > 0 && (
-        <section className="mb-10">
-          <h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Featured
-          </h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {featured.map((project) => (
-              <ProjectCard key={project.title} project={project} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {rest.length > 0 && (
-        <section>
-          <h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Other Projects
-          </h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {rest.map((project) => (
-              <ProjectCard key={project.title} project={project} />
-            ))}
-          </div>
-        </section>
-      )}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.map((project) => (
+          <ProjectCard key={project.title} project={project} />
+        ))}
+      </div>
     </div>
   )
 }

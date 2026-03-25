@@ -8,7 +8,7 @@ import { nowData } from '@/lib/now'
 
 export default function HomePage() {
   const posts = getAllPosts().slice(0, 4)
-  const featuredProjects = projects.filter((p) => p.featured).slice(0, 4)
+  const featuredProjects = projects.slice(0, 4)
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 md:px-6 space-y-14">

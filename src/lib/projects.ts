@@ -9,14 +9,43 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+{
+    title: 'Paytm Clone',
+    description:
+    'A basic clone of the Paytm payment platform built with JavaScript. Recreates core payment flows to explore full-stack fintech concepts including wallet transfers and transaction history.',
+    tags: ['JavaScript', 'Full-Stack', 'Fintech', 'Clone'],
+    github: 'https://github.com/PDGamerSG/Paytm-clone',
+    featured: false,
+    status: 'in-progress',
+},
+{
+    title: 'Streak App',
+    description:
+    'An Android habit tracking app built with Kotlin that helps users build and maintain daily streaks. Tracks consistency across custom habits with a clean mobile UI.',
+    tags: ['Kotlin', 'Android', 'Mobile', 'Habit Tracking'],
+    github: 'https://github.com/PDGamerSG/Streak-App',
+    featured: false,
+    status: 'in-progress',
+},
+  {
+    title: 'Ventilair India',
+    description:
+    'Production website for Ventilair India, a leading industrial fan & blower manufacturer. Built with Next.js 16 App Router, React 19, Framer Motion animations, Tailwind CSS v4. Fully SSR, SEO-optimised with Core Web Vitals tuning, JSON-LD, sitemap, and PWA support.',
+    tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
+    github: 'https://github.com/PDGamerSG/Ventilair-Project',
+    demo: 'https://lcdas.in/',
+    featured: true,
+    status: 'completed',
+},
     {
-        title: 'Personal Website',
-        description:
-        'This website a fully static, SEO optimised personal portfolio and blog built with Next.js 16, Tailwind CSS v4, MDX for blog posts, dark/light mode, RSS feed, and auto-generated sitemap.',
-        tags: ['Next.js', 'TypeScript', 'Tailwind CSS'],
-        github: 'https://github.com/PDGamerSG/Personal-Website',
-        featured: true,
-        status: 'in-progress',
+        title: 'VTOP Extension',
+      description:
+        'Browser extension that supercharges the VIT university portal (VTOP) with new features and a cleaner experience better timetable views, quick navigation, and quality-of-life improvements for VIT students.',
+      tags: ['JavaScript', 'Browser Extension', 'Chrome', 'VIT', 'Productivity'],
+      github: 'https://github.com/PDGamerSG/VIT-Extension',
+      demo:"https://chromewebstore.google.com/detail/VTop+/lfimlnfelmhmiachieegmffalffiacfh",
+      featured: true,
+      status: 'research',
     },
     {
         title: 'Course Platform End to End',
@@ -28,25 +57,14 @@ export const projects: Project[] = [
         status: 'in-progress',
     },
     {
-        title: 'VTOP Extension',
-      description:
-        'Browser extension that supercharges the VIT university portal (VTOP) with new features and a cleaner experience better timetable views, quick navigation, and quality-of-life improvements for VIT students.',
-      tags: ['JavaScript', 'Browser Extension', 'Chrome', 'VIT', 'Productivity'],
-      github: 'https://github.com/PDGamerSG/VIT-Extension',
-      demo:"https://chromewebstore.google.com/detail/VTop+/lfimlnfelmhmiachieegmffalffiacfh",
-      featured: true,
-      status: 'research',
+        title: 'Personal Website',
+        description:
+        'This website a fully static, SEO optimised personal portfolio and blog built with Next.js 16, Tailwind CSS v4, MDX for blog posts, dark/light mode, RSS feed, and auto-generated sitemap.',
+        tags: ['Next.js', 'TypeScript', 'Tailwind CSS'],
+        github: 'https://github.com/PDGamerSG/Personal-Website',
+        featured: true,
+        status: 'in-progress',
     },
-  {
-    title: 'Ventilair India',
-    description:
-    'Production website for Ventilair India, a leading industrial fan & blower manufacturer. Built with Next.js 16 App Router, React 19, Framer Motion animations, Tailwind CSS v4. Fully SSR, SEO-optimised with Core Web Vitals tuning, JSON-LD, sitemap, and PWA support.',
-    tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
-    github: 'https://github.com/PDGamerSG/Ventilair-Project',
-    demo: 'https://lcdas.in/',
-    featured: true,
-    status: 'completed',
-},
 {
     title: 'Gulab Jamun Retail Platform',
     description:
