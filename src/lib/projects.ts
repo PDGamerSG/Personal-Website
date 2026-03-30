@@ -10,6 +10,15 @@ export interface Project {
 
 export const projects: Project[] = [
 {
+    title: 'Zapier',
+    description:
+    'A Zapier-inspired automation platform built with TypeScript. Features a frontend interface and custom hooks system for creating automated workflows between services.',
+    tags: ['TypeScript', 'Automation', 'Full-Stack'],
+    github: 'https://github.com/PDGamerSG/Zapier',
+    featured: false,
+    status: 'in-progress',
+},
+{
     title: 'Paytm Clone',
     description:
     'A basic clone of the Paytm payment platform built with JavaScript. Recreates core payment flows to explore full-stack fintech concepts including wallet transfers and transaction history.',
