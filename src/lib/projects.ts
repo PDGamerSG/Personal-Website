@@ -19,11 +19,20 @@ export const projects: Project[] = [
     status: 'in-progress',
 },
 {
-    title: 'Paytm Clone',
+    title: 'Git Pusher Application',
     description:
-    'A basic clone of the Paytm payment platform built with JavaScript. Recreates core payment flows to explore full-stack fintech concepts including wallet transfers and transaction history.',
-    tags: ['JavaScript', 'Full-Stack', 'Fintech', 'Clone'],
-    github: 'https://github.com/PDGamerSG/Paytm-clone',
+    'A utility application that simplifies and automates the Git push workflow. Streamlines committing and pushing changes to remote repositories with a clean interface.',
+    tags: ['Git', 'Automation', 'Developer Tools'],
+    github: 'https://github.com/PDGamerSG/Git-Pusher-Application',
+    featured: false,
+    status: 'completed',
+},
+{
+    title: 'Medium Blog Website',
+    description:
+    'A Medium-inspired blogging platform with a clean reading and writing experience. Features article publishing, rich text editing, and a responsive layout.',
+    tags: ['Full-Stack', 'Blog', 'Web'],
+    github: 'https://github.com/PDGamerSG/Medium-Blog-Website',
     featured: false,
     status: 'in-progress',
 },
@@ -33,6 +42,24 @@ export const projects: Project[] = [
     'An Android habit tracking app built with Kotlin that helps users build and maintain daily streaks. Tracks consistency across custom habits with a clean mobile UI.',
     tags: ['Kotlin', 'Android', 'Mobile', 'Habit Tracking'],
     github: 'https://github.com/PDGamerSG/Streak-App',
+    featured: false,
+    status: 'in-progress',
+},
+{
+    title: 'Alarm App',
+    description:
+    'A mobile alarm application with customizable alerts, snooze functionality, and a user-friendly interface for managing daily wake-up routines.',
+    tags: ['Mobile', 'Android', 'Utility'],
+    github: 'https://github.com/PDGamerSG/Alarm-App',
+    featured: false,
+    status: 'in-progress',
+},
+{
+    title: 'Paytm Clone',
+    description:
+    'A basic clone of the Paytm payment platform built with JavaScript. Recreates core payment flows to explore full-stack fintech concepts including wallet transfers and transaction history.',
+    tags: ['JavaScript', 'Full-Stack', 'Fintech', 'Clone'],
+    github: 'https://github.com/PDGamerSG/Paytm-clone',
     featured: false,
     status: 'in-progress',
 },
