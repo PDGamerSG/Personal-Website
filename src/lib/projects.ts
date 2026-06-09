@@ -10,6 +10,15 @@ export interface Project {
 
 export const projects: Project[] = [
 {
+    title: 'Exciladraw',
+    description:
+    'An Excalidraw-inspired collaborative whiteboard and drawing tool. Built as a Turborepo monorepo with multiple Next.js apps and a shared component library, fully typed end-to-end with TypeScript.',
+    tags: ['TypeScript', 'Next.js', 'Turborepo', 'Whiteboard', 'Canvas'],
+    github: 'https://github.com/PDGamerSG/Exciladraw',
+    featured: true,
+    status: 'in-progress',
+},
+{
     title: 'Zapier',
     description:
     'A Zapier-inspired automation platform built with TypeScript. Features a frontend interface and custom hooks system for creating automated workflows between services.',
