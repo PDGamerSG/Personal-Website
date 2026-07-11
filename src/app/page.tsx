@@ -86,10 +86,13 @@ export default function HomePage() {
 
       {/* ── Projects ── */}
       <section>
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Projects</h2>
-          <Link href="/projects" className="flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground">
-            All <ArrowRight className="h-3 w-3" />
+        <div className="mb-5 flex items-end justify-between">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-lg font-semibold tracking-tight text-foreground">Projects</h2>
+            <p className="text-sm text-muted-foreground">Things I&apos;ve built and broken</p>
+          </div>
+          <Link href="/projects" className="group flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground">
+            see all <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
         <div className="divide-y divide-border/40">
@@ -123,28 +126,31 @@ export default function HomePage() {
 
       {/* ── Currently Learning ── */}
       <section>
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Currently Learning</h2>
-          <Link href="/writing" className="text-xs text-muted-foreground transition-colors hover:text-foreground">
-            see all →
+        <div className="mb-5 flex items-end justify-between">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-lg font-semibold tracking-tight text-foreground">Currently learning</h2>
+            <p className="text-sm text-muted-foreground">What I&apos;m exploring right now</p>
+          </div>
+          <Link href="/writing" className="group flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground">
+            see all <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
-        <ul className="space-y-2">
+        <ul className="space-y-1.5 text-sm text-muted-foreground [&_li]:relative [&_li]:pl-4 [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:content-['–'] [&_li]:before:text-muted-foreground/80">
           {nowData.learning.map((item) => (
-            <li key={item} className="flex items-start gap-2.5 text-sm text-foreground">
-              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-primary/40" />
-              {item}
-            </li>
+            <li key={item}>{item}</li>
           ))}
         </ul>
       </section>
 
-      {/* ── From the Workshop ── */}
+      {/* ── Writing ── */}
       <section>
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">From the Workshop</h2>
-          <Link href="/writing" className="flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground">
-            All <ArrowRight className="h-3 w-3" />
+        <div className="mb-5 flex items-end justify-between">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-lg font-semibold tracking-tight text-foreground">Writing</h2>
+            <p className="text-sm text-muted-foreground">Notes from the workshop</p>
+          </div>
+          <Link href="/writing" className="group flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground">
+            see all <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
         {posts.length === 0 ? (

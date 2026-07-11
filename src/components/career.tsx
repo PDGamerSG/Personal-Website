@@ -16,7 +16,7 @@ function tenure(): string {
 export function Career() {
   return (
     <section>
-      <div className="mb-6 flex flex-col gap-1">
+      <div className="mb-5 flex flex-col gap-1">
         <h2 className="text-lg font-semibold tracking-tight text-foreground">Career</h2>
         <p className="text-sm text-muted-foreground">Work experience and roles</p>
       </div>
