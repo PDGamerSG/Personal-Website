@@ -44,11 +44,11 @@ export function Career() {
               </span>
               <ul className="mt-1 list-none space-y-0.5 [&_li]:relative [&_li]:pl-4 [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:content-['–'] [&_li]:before:text-muted-foreground/80">
                 <li>
-                  Building the frontend of BTM CRM — role-based dashboards, ticketing and lead
+                  Building the frontend of BTM CRM: role-based dashboards, ticketing and lead
                   workflows in React
                 </li>
                 <li>
-                  Worked on the backend of Re:BTM, the B2B trade marketplace — Django services
+                  Worked on the backend of Re:BTM, the B2B trade marketplace, with Django services
                   powering the store, auctions and real-time chat
                 </li>
               </ul>

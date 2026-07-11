@@ -2,8 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getAllPosts } from '@/lib/posts'
 import { projects } from '@/lib/projects'
-import { Badge } from '@/components/ui/badge'
-import { ArrowRight, Github, Twitter, Linkedin, ExternalLink } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Github, Twitter, Linkedin } from 'lucide-react'
 import { nowData } from '@/lib/now'
 import { StatStrip } from '@/components/stat-strip'
 import { Career } from '@/components/career'
@@ -92,32 +91,40 @@ export default function HomePage() {
             see all <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
-        <div className="divide-y divide-border/40">
-          {featuredProjects.map((project) => (
-            <div key={project.title} className="flex items-start justify-between gap-4 py-3.5">
-              <div className="min-w-0">
-                <p className="text-sm font-medium text-foreground">{project.title}</p>
-                <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1 pr-2">{project.description}</p>
-              </div>
-              <div className="flex shrink-0 items-center gap-2 pt-0.5">
-                {project.tags.slice(0, 2).map(tag => (
-                  <Badge key={tag} variant="secondary" className="text-xs hidden sm:inline-flex">{tag}</Badge>
-                ))}
-                {project.github && (
-                  <Link href={project.github} target="_blank" rel="noopener noreferrer"
-                    className="text-muted-foreground transition-colors hover:text-foreground" aria-label="GitHub">
-                    <Github className="h-3.5 w-3.5" />
+        <div className="flex flex-col gap-10">
+          {featuredProjects.map((project) => {
+            const url = project.demo ?? project.github
+            const beats = project.highlights ?? [project.description]
+            return (
+              <div key={project.title}>
+                {url ? (
+                  <Link
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex w-fit items-center gap-2 text-[15px] font-medium text-foreground"
+                  >
+                    {project.title}
+                    <ArrowUpRight className="h-4 w-4 opacity-65 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100" />
                   </Link>
+                ) : (
+                  <p className="text-[15px] font-medium text-foreground">{project.title}</p>
                 )}
-                {project.demo && (
-                  <Link href={project.demo} target="_blank" rel="noopener noreferrer"
-                    className="text-muted-foreground transition-colors hover:text-foreground" aria-label="Live demo">
-                    <ExternalLink className="h-3.5 w-3.5" />
-                  </Link>
-                )}
+                <div className="relative mt-4 flex flex-col gap-4">
+                  <span
+                    aria-hidden
+                    className="absolute bottom-2 left-[2.5px] top-2 w-[1.5px] bg-muted-foreground/30"
+                  />
+                  {beats.map((beat) => (
+                    <div key={beat} className="relative flex gap-4">
+                      <span className="z-10 mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary-foreground ring-4 ring-background" />
+                      <p className="text-sm leading-relaxed text-muted-foreground">{beat}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </section>
 
@@ -154,7 +161,7 @@ export default function HomePage() {
           </Link>
         </div>
         {posts.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Nothing published yet — coming soon.</p>
+          <p className="text-sm text-muted-foreground">Nothing published yet, coming soon.</p>
         ) : (
           <ul className="space-y-3">
             {posts.map((post) => (

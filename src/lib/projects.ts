@@ -1,6 +1,8 @@
 export interface Project {
   title: string
   description: string
+  /** Short story beats shown on the homepage timeline; falls back to description */
+  highlights?: string[]
   tags: string[]
   github?: string
   demo?: string
@@ -13,6 +15,11 @@ export const projects: Project[] = [
     title: 'Centralized Exchange',
     description:
     'A centralized crypto exchange inspired by Backpack Exchange. Covers the full trading experience: live markets, order book, candlestick charts, and a fast trading UI. In active development.',
+    highlights: [
+      'A centralized crypto exchange inspired by Backpack Exchange, built with Next.js and TypeScript.',
+      'Covers the full trading experience: live markets, order book, candlestick charts, and a fast trading UI.',
+      'In active development and my current main focus.',
+    ],
     tags: ['TypeScript', 'Next.js', 'Crypto', 'Trading', 'Full-Stack'],
     featured: true,
     status: 'in-progress',
@@ -21,6 +28,10 @@ export const projects: Project[] = [
     title: 'Exciladraw',
     description:
     'A collaborative whiteboard and drawing tool in the spirit of Excalidraw. Built as a Turborepo monorepo with multiple Next.js apps and a shared component library, fully typed in TypeScript.',
+    highlights: [
+      'A collaborative whiteboard and drawing tool in the spirit of Excalidraw.',
+      'Structured as a Turborepo monorepo: multiple Next.js apps sharing one component library, fully typed in TypeScript.',
+    ],
     tags: ['TypeScript', 'Next.js', 'Turborepo', 'Whiteboard', 'Canvas'],
     github: 'https://github.com/PDGamerSG/Exciladraw',
     demo: 'https://exciladraw.pallabdas.me/',
@@ -31,6 +42,10 @@ export const projects: Project[] = [
     title: 'Zapier',
     description:
     'An automation platform inspired by Zapier. Wire services together into automated workflows through a visual builder backed by a custom hooks system, all in TypeScript.',
+    highlights: [
+      'An automation platform inspired by Zapier for wiring services together into workflows.',
+      'A visual builder on the frontend, backed by a custom hooks system, all in TypeScript.',
+    ],
     tags: ['TypeScript', 'Automation', 'Full-Stack'],
     github: 'https://github.com/PDGamerSG/Zapier',
     featured: false,
@@ -40,6 +55,10 @@ export const projects: Project[] = [
     title: 'Git Pusher Application',
     description:
     'A utility that turns the repetitive commit-and-push routine into a couple of clicks. Stages, commits, and pushes to remote repositories from one clean interface.',
+    highlights: [
+      'A utility that turns the repetitive commit-and-push routine into a couple of clicks.',
+      'Stages, commits, and pushes to remote repositories from one clean interface.',
+    ],
     tags: ['Git', 'Automation', 'Developer Tools'],
     github: 'https://github.com/PDGamerSG/Git-Pusher-Application',
     featured: false,
