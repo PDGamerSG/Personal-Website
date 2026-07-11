@@ -4,6 +4,7 @@ import { useTheme } from 'next-themes'
 import { Moon, Sun } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useEffect, useState } from 'react'
+import { flushSync } from 'react-dom'
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
@@ -21,10 +22,16 @@ export function ThemeToggle() {
   }
 
   const toggleTheme = () => {
-    const root = document.documentElement
-    root.classList.add('theme-transitioning')
-    setTheme(theme === 'dark' ? 'light' : 'dark')
-    window.setTimeout(() => root.classList.remove('theme-transitioning'), 200)
+    const next = theme === 'dark' ? 'light' : 'dark'
+    if (!document.startViewTransition) {
+      setTheme(next)
+      return
+    }
+    // Circle-reveal theme switch: the new theme wipes up from the bottom
+    // of the screen (see ::view-transition rules in globals.css)
+    document.startViewTransition(() => {
+      flushSync(() => setTheme(next))
+    })
   }
 
   return (
