@@ -10,11 +10,20 @@ export interface Project {
 
 export const projects: Project[] = [
 {
+    title: 'Centralized Exchange',
+    description:
+    'A centralized crypto exchange website inspired by Backpack Exchange. Building the full trading experience — markets, order book, charts, and a fast trading UI. Currently in active development.',
+    tags: ['TypeScript', 'Next.js', 'Crypto', 'Trading', 'Full-Stack'],
+    featured: true,
+    status: 'in-progress',
+},
+{
     title: 'Exciladraw',
     description:
     'An Excalidraw-inspired collaborative whiteboard and drawing tool. Built as a Turborepo monorepo with multiple Next.js apps and a shared component library, fully typed end-to-end with TypeScript.',
     tags: ['TypeScript', 'Next.js', 'Turborepo', 'Whiteboard', 'Canvas'],
     github: 'https://github.com/PDGamerSG/Exciladraw',
+    demo: 'https://exciladraw.pallabdas.me/',
     featured: true,
     status: 'in-progress',
 },
@@ -99,6 +108,7 @@ export const projects: Project[] = [
         tags: ['Next.js', 'TypeScript', 'Full-Stack', 'Node.js', 'PostgreSQL'],
         featured: true,
         github: 'https://github.com/PDGamerSG/Course-app',
+        demo: 'https://course-app-swart-xi.vercel.app',
         status: 'in-progress',
     },
     {
@@ -107,6 +117,7 @@ export const projects: Project[] = [
         'This website a fully static, SEO optimised personal portfolio and blog built with Next.js 16, Tailwind CSS v4, MDX for blog posts, dark/light mode, RSS feed, and auto-generated sitemap.',
         tags: ['Next.js', 'TypeScript', 'Tailwind CSS'],
         github: 'https://github.com/PDGamerSG/Personal-Website',
+        demo: 'https://pallabdas.dev',
         featured: true,
         status: 'in-progress',
     },

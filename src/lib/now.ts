@@ -2,6 +2,7 @@ export const nowData = {
   lastUpdated: 'February 24, 2026',
 
   learning: [
+    'Currently building a centralized exchange website like Backpack Exchange',
     'Web3: Started exploring about the solana wallets and all',
     'Revisting the old dev stuffs ',
     'Exploring new ml models for agentic programming not vibe coding :)',
