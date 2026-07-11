@@ -5,6 +5,8 @@ import { projects } from '@/lib/projects'
 import { Badge } from '@/components/ui/badge'
 import { ArrowRight, Github, Twitter, Linkedin, ExternalLink } from 'lucide-react'
 import { nowData } from '@/lib/now'
+import { StatStrip } from '@/components/stat-strip'
+import { Career } from '@/components/career'
 
 export default function HomePage() {
   const posts = getAllPosts().slice(0, 4)
@@ -76,6 +78,12 @@ export default function HomePage() {
         </blockquote>
       </section>
 
+      {/* ── Stat strip ── */}
+      <StatStrip />
+
+      {/* ── Career ── */}
+      <Career />
+
       {/* ── Projects ── */}
       <section>
         <div className="mb-4 flex items-center justify-between">
@@ -116,13 +124,7 @@ export default function HomePage() {
       {/* ── Currently Learning ── */}
       <section>
         <div className="mb-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-            </span>
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Currently Learning</h2>
-          </div>
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Currently Learning</h2>
           <Link href="/writing" className="text-xs text-muted-foreground transition-colors hover:text-foreground">
             see all →
           </Link>
