@@ -24,9 +24,11 @@ interface MonkeyTypeProfile {
     completedTests: number
     timeTyping: number
   }
-  streak?: {
-    length: number
-    maxLength: number
+  streak?: number
+  maxStreak?: number
+  testActivity?: {
+    testsByDays: (number | null)[]
+    lastDay: number
   }
 }
 
@@ -66,13 +68,40 @@ function getBestWpm(entries?: PersonalBestEntry[]): number | null {
   return Math.round(Math.max(...entries.map((e) => e.wpm)))
 }
 
-function TypingHeatmap({ results }: { results: TypingResult[] }) {
+function TypingHeatmap({
+  results,
+  activity,
+}: {
+  results: TypingResult[]
+  activity?: MonkeyTypeProfile['testActivity']
+}) {
   // Build day map: YYYY-MM-DD -> { count, maxWpm }
   const dayMap = new Map<string, { count: number; maxWpm: number }>()
+
+  // Per-day counts from the public profile — covers the full last ~372 days,
+  // unlike /results which is capped at the most recent 1000 tests
+  if (activity?.testsByDays) {
+    const { testsByDays, lastDay } = activity
+    testsByDays.forEach((count, i) => {
+      if (!count) return
+      const key = new Date(lastDay - (testsByDays.length - 1 - i) * 86400000)
+        .toISOString()
+        .split('T')[0]
+      dayMap.set(key, { count, maxWpm: 0 })
+    })
+  }
+
+  // Recent results add best-WPM detail, and cover days newer than lastDay
+  const resultDays = new Map<string, { count: number; maxWpm: number }>()
   for (const r of results) {
     const key = new Date(r.timestamp).toISOString().split('T')[0]
-    const prev = dayMap.get(key) ?? { count: 0, maxWpm: 0 }
-    dayMap.set(key, { count: prev.count + 1, maxWpm: Math.max(prev.maxWpm, Math.round(r.wpm)) })
+    const prev = resultDays.get(key) ?? { count: 0, maxWpm: 0 }
+    resultDays.set(key, { count: prev.count + 1, maxWpm: Math.max(prev.maxWpm, Math.round(r.wpm)) })
+  }
+  for (const [key, day] of resultDays) {
+    const existing = dayMap.get(key)
+    if (existing) existing.maxWpm = day.maxWpm
+    else dayMap.set(key, day)
   }
 
   // Always start from week of Sept 6 2025 (the user's start date)
@@ -201,7 +230,9 @@ function TypingHeatmap({ results }: { results: TypingResult[] }) {
               const tooltip =
                 cell.count === 0
                   ? `${dateStr} — no tests`
-                  : `${dateStr} — best ${cell.maxWpm} WPM · ${cell.count} test${cell.count > 1 ? 's' : ''}`
+                  : cell.maxWpm > 0
+                  ? `${dateStr} — best ${cell.maxWpm} WPM · ${cell.count} test${cell.count > 1 ? 's' : ''}`
+                  : `${dateStr} — ${cell.count} test${cell.count > 1 ? 's' : ''}`
               return (
                 <rect
                   key={cell.key}
@@ -245,8 +276,8 @@ export async function MonkeyTypeStats() {
     .map((m) => ({ mode: `${m}s`, wpm: getBestWpm(profile.personalBests?.time?.[m]) }))
     .filter((s) => s.wpm !== null)
 
-  const streak = profile.streak?.length ?? 0
-  const maxStreak = profile.streak?.maxLength ?? 0
+  const streak = profile.streak ?? 0
+  const maxStreak = profile.maxStreak ?? 0
 
   // Fixed date range from Sept 6, 2025
   const rangeLabel = 'Sep 2025 → today'
@@ -301,7 +332,7 @@ export async function MonkeyTypeStats() {
             </p>
             <p className="text-[11px] text-muted-foreground/60">{rangeLabel}</p>
           </div>
-          <TypingHeatmap results={results} />
+          <TypingHeatmap results={results} activity={profile.testActivity} />
         </div>
       </div>
     </section>
