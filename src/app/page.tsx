@@ -81,9 +81,6 @@ export default function HomePage() {
       {/* ── Stat strip ── */}
       <StatStrip />
 
-      {/* ── Career ── */}
-      <Career />
-
       {/* ── Projects ── */}
       <section>
         <div className="mb-5 flex items-end justify-between">
@@ -123,6 +120,9 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* ── Career ── */}
+      <Career />
 
       {/* ── Currently Learning ── */}
       <section>
