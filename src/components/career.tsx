@@ -1,3 +1,6 @@
+import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
+
 const CAREER_START = new Date(2026, 4) // May 2026
 
 function tenure(): string {
@@ -22,7 +25,15 @@ export function Career() {
       </div>
 
       <div className="flex flex-col gap-1">
-        <p className="font-medium text-foreground">Biz Trade Mart</p>
+        <Link
+          href="https://www.biztrademart.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex w-fit items-center gap-2 font-medium text-foreground"
+        >
+          Biz Trade Mart
+          <ArrowUpRight className="h-4 w-4 opacity-65 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100" />
+        </Link>
         <p className="text-xs text-muted-foreground">Bizindo Trade Mart Private Limited</p>
       </div>
 
