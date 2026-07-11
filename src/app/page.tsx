@@ -133,20 +133,22 @@ export default function HomePage() {
 
       {/* ── Currently Learning ── */}
       <section>
-        <div className="mb-5 flex items-end justify-between">
-          <div className="flex flex-col gap-1">
-            <h2 className="text-lg font-semibold tracking-tight text-foreground">Currently learning</h2>
-            <p className="text-sm text-muted-foreground">What I&apos;m exploring right now</p>
-          </div>
-          <Link href="/writing" className="group flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground">
-            see all <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
-          </Link>
+        <div className="mb-5 flex flex-col gap-1">
+          <h2 className="text-lg font-semibold tracking-tight text-foreground">Currently learning</h2>
+          <p className="text-sm text-muted-foreground">What I&apos;m exploring right now</p>
         </div>
-        <ul className="space-y-1.5 text-sm text-muted-foreground [&_li]:relative [&_li]:pl-4 [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:content-['–'] [&_li]:before:text-muted-foreground/80">
+        <div className="relative flex flex-col gap-4">
+          <span
+            aria-hidden
+            className="absolute bottom-2 left-[2.5px] top-2 w-[1.5px] bg-muted-foreground/30"
+          />
           {nowData.learning.map((item) => (
-            <li key={item}>{item}</li>
+            <div key={item} className="relative flex gap-4">
+              <span className="z-10 mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary-foreground ring-4 ring-background" />
+              <p className="text-sm leading-relaxed text-muted-foreground">{item}</p>
+            </div>
           ))}
-        </ul>
+        </div>
       </section>
 
       {/* ── Writing ── */}
