@@ -12,7 +12,7 @@ export const projects: Project[] = [
 {
     title: 'Centralized Exchange',
     description:
-    'A centralized crypto exchange website inspired by Backpack Exchange. Building the full trading experience — markets, order book, charts, and a fast trading UI. Currently in active development.',
+    'A centralized crypto exchange inspired by Backpack Exchange. Covers the full trading experience: live markets, order book, candlestick charts, and a fast trading UI. In active development.',
     tags: ['TypeScript', 'Next.js', 'Crypto', 'Trading', 'Full-Stack'],
     featured: true,
     status: 'in-progress',
@@ -20,7 +20,7 @@ export const projects: Project[] = [
 {
     title: 'Exciladraw',
     description:
-    'An Excalidraw-inspired collaborative whiteboard and drawing tool. Built as a Turborepo monorepo with multiple Next.js apps and a shared component library, fully typed end-to-end with TypeScript.',
+    'A collaborative whiteboard and drawing tool in the spirit of Excalidraw. Built as a Turborepo monorepo with multiple Next.js apps and a shared component library, fully typed in TypeScript.',
     tags: ['TypeScript', 'Next.js', 'Turborepo', 'Whiteboard', 'Canvas'],
     github: 'https://github.com/PDGamerSG/Exciladraw',
     demo: 'https://exciladraw.pallabdas.me/',
@@ -30,7 +30,7 @@ export const projects: Project[] = [
 {
     title: 'Zapier',
     description:
-    'A Zapier-inspired automation platform built with TypeScript. Features a frontend interface and custom hooks system for creating automated workflows between services.',
+    'An automation platform inspired by Zapier. Wire services together into automated workflows through a visual builder backed by a custom hooks system, all in TypeScript.',
     tags: ['TypeScript', 'Automation', 'Full-Stack'],
     github: 'https://github.com/PDGamerSG/Zapier',
     featured: false,
@@ -39,7 +39,7 @@ export const projects: Project[] = [
 {
     title: 'Git Pusher Application',
     description:
-    'A utility application that simplifies and automates the Git push workflow. Streamlines committing and pushing changes to remote repositories with a clean interface.',
+    'A utility that turns the repetitive commit-and-push routine into a couple of clicks. Stages, commits, and pushes to remote repositories from one clean interface.',
     tags: ['Git', 'Automation', 'Developer Tools'],
     github: 'https://github.com/PDGamerSG/Git-Pusher-Application',
     featured: false,
@@ -48,7 +48,7 @@ export const projects: Project[] = [
 {
     title: 'Medium Blog Website',
     description:
-    'A Medium-inspired blogging platform with a clean reading and writing experience. Features article publishing, rich text editing, and a responsive layout.',
+    'A Medium-style blogging platform with a clean reading and writing experience: article publishing, rich text editing, and a responsive layout.',
     tags: ['Full-Stack', 'Blog', 'Web'],
     github: 'https://github.com/PDGamerSG/Medium-Blog-Website',
     featured: false,
@@ -57,7 +57,7 @@ export const projects: Project[] = [
 {
     title: 'Streak App',
     description:
-    'An Android habit tracking app built with Kotlin that helps users build and maintain daily streaks. Tracks consistency across custom habits with a clean mobile UI.',
+    'An Android habit tracker written in Kotlin. Build daily streaks across custom habits and watch consistency add up in a clean mobile UI.',
     tags: ['Kotlin', 'Android', 'Mobile', 'Habit Tracking'],
     github: 'https://github.com/PDGamerSG/Streak-App',
     featured: false,
@@ -75,7 +75,7 @@ export const projects: Project[] = [
 {
     title: 'Paytm Clone',
     description:
-    'A basic clone of the Paytm payment platform built with JavaScript. Recreates core payment flows to explore full-stack fintech concepts including wallet transfers and transaction history.',
+    'A Paytm-style payments app exploring full-stack fintech: wallet transfers, transaction history, and the core payment flows, built in JavaScript.',
     tags: ['JavaScript', 'Full-Stack', 'Fintech', 'Clone'],
     github: 'https://github.com/PDGamerSG/Paytm-clone',
     featured: false,
@@ -84,7 +84,7 @@ export const projects: Project[] = [
   {
     title: 'Ventilair India',
     description:
-    'Production website for Ventilair India, a leading industrial fan & blower manufacturer. Built with Next.js 16 App Router, React 19, Framer Motion animations, Tailwind CSS v4. Fully SSR, SEO-optimised with Core Web Vitals tuning, JSON-LD, sitemap, and PWA support.',
+    'Production website for Ventilair India, a leading industrial fan and blower manufacturer. Next.js 16 App Router, React 19, Framer Motion, and Tailwind CSS v4. Fully SSR and SEO-optimised with Core Web Vitals tuning, JSON-LD, sitemap, and PWA support.',
     tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
     github: 'https://github.com/PDGamerSG/Ventilair-Project',
     demo: 'https://lcdas.in/',
@@ -94,7 +94,7 @@ export const projects: Project[] = [
     {
         title: 'VTOP Extension',
       description:
-        'Browser extension that supercharges the VIT university portal (VTOP) with new features and a cleaner experience better timetable views, quick navigation, and quality-of-life improvements for VIT students.',
+        'Browser extension that supercharges the VIT university portal (VTOP): better timetable views, quick navigation, and quality-of-life improvements for students. Live on the Chrome Web Store.',
       tags: ['JavaScript', 'Browser Extension', 'Chrome', 'VIT', 'Productivity'],
       github: 'https://github.com/PDGamerSG/VIT-Extension',
       demo:"https://chromewebstore.google.com/detail/VTop+/lfimlnfelmhmiachieegmffalffiacfh",
@@ -104,7 +104,7 @@ export const projects: Project[] = [
     {
         title: 'Course Platform End to End',
         description:
-        'A full-stack course platform built end-to-end video lessons, progress tracking, quizzes, and payments. Built to learn and ship a production-grade web app from scratch.',
+        'A full-stack course platform with video lessons, progress tracking, quizzes, and payments. Built to learn what it takes to ship a production-grade web app from scratch.',
         tags: ['Next.js', 'TypeScript', 'Full-Stack', 'Node.js', 'PostgreSQL'],
         featured: true,
         github: 'https://github.com/PDGamerSG/Course-app',
@@ -114,7 +114,7 @@ export const projects: Project[] = [
     {
         title: 'Personal Website',
         description:
-        'This website a fully static, SEO optimised personal portfolio and blog built with Next.js 16, Tailwind CSS v4, MDX for blog posts, dark/light mode, RSS feed, and auto-generated sitemap.',
+        'The site you are on right now: a fully static, SEO-optimised portfolio and blog built with Next.js 16 and Tailwind CSS v4, with MDX posts, dark and light themes, RSS feed, and an auto-generated sitemap.',
         tags: ['Next.js', 'TypeScript', 'Tailwind CSS'],
         github: 'https://github.com/PDGamerSG/Personal-Website',
         demo: 'https://pallabdas.dev',
@@ -124,7 +124,7 @@ export const projects: Project[] = [
 {
     title: 'Gulab Jamun Retail Platform',
     description:
-    'Smart Retail Supply Chain & Customer Intelligence Platform built for CSI-VIT ForkThis\'25 hackathon. Full-stack app with React frontend and Python backend providing AI-driven demand forecasting and customer insights.The dataset was given and ',
+    'Smart retail supply chain and customer intelligence platform built at the CSI-VIT ForkThis\'25 hackathon. React frontend and Python backend serving AI-driven demand forecasting and customer insights on a provided retail dataset.',
     tags: ['React', 'Python', 'AI', 'Hackathon', 'Supply Chain', 'Data Analytics'],
     github: 'https://github.com/PDGamerSG/Gulab-jamun-Project',
     demo: 'https://gulab-jamun-project.vercel.app/',
