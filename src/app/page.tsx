@@ -2,15 +2,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getAllPosts } from '@/lib/posts'
 import { projects } from '@/lib/projects'
-import { ArrowRight, Github, Twitter, Linkedin } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Github, Twitter, Linkedin } from 'lucide-react'
 import { nowData } from '@/lib/now'
 import { StatStrip } from '@/components/stat-strip'
 import { Career } from '@/components/career'
-import { ProjectIndex } from '@/components/project-index'
 
 export default function HomePage() {
   const posts = getAllPosts().slice(0, 4)
-  const featuredProjects = projects.filter((p) => p.featured).slice(0, 4)
+  const featuredProjects = projects.slice(0, 4)
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 md:px-6 space-y-14">
@@ -92,7 +91,41 @@ export default function HomePage() {
             see all <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
-        <ProjectIndex projects={featuredProjects} />
+        <div className="flex flex-col gap-10">
+          {featuredProjects.map((project) => {
+            const url = project.demo ?? project.github
+            const beats = project.highlights ?? [project.description]
+            return (
+              <div key={project.title}>
+                {url ? (
+                  <Link
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex w-fit items-center gap-2 text-[15px] font-medium text-foreground"
+                  >
+                    {project.title}
+                    <ArrowUpRight className="h-4 w-4 opacity-65 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100" />
+                  </Link>
+                ) : (
+                  <p className="text-[15px] font-medium text-foreground">{project.title}</p>
+                )}
+                <div className="relative mt-4 flex flex-col gap-4">
+                  <span
+                    aria-hidden
+                    className="absolute bottom-2 left-[2.5px] top-2 w-[1.5px] bg-muted-foreground/30"
+                  />
+                  {beats.map((beat) => (
+                    <div key={beat} className="relative flex gap-4">
+                      <span className="z-10 mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary-foreground ring-4 ring-background" />
+                      <p className="text-sm leading-relaxed text-muted-foreground">{beat}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
+        </div>
       </section>
 
       {/* ── Career ── */}
