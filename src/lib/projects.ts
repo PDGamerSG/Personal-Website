@@ -25,6 +25,7 @@ export const projects: Project[] = [
       'In active development and my current main focus.',
     ],
     tags: ['TypeScript', 'Next.js', 'Crypto', 'Trading', 'Full-Stack'],
+    github: 'https://github.com/PDGamerSG/Centralized-Exchange',
     featured: true,
     status: 'in-progress',
 },

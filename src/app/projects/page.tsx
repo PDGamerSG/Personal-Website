@@ -57,7 +57,7 @@ function FeaturedCard({ project, hero = false }: { project: Project; hero?: bool
             }}
           >
             <span className="rounded-full border border-border bg-background/80 px-3 py-1.5 font-mono text-[11px] text-muted-foreground">
-              $ building in private, demo soon
+              $ building in public, demo soon
             </span>
           </div>
         )}
