@@ -6,7 +6,7 @@ import { ArrowRight, Github, Twitter, Linkedin } from 'lucide-react'
 import { nowData } from '@/lib/now'
 import { StatStrip } from '@/components/stat-strip'
 import { Career } from '@/components/career'
-import { ProjectCard } from '@/components/project-card'
+import { ProjectIndex } from '@/components/project-index'
 
 export default function HomePage() {
   const posts = getAllPosts().slice(0, 4)
@@ -92,11 +92,7 @@ export default function HomePage() {
             see all <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2">
-          {featuredProjects.map((project) => (
-            <ProjectCard key={project.title} project={project} />
-          ))}
-        </div>
+        <ProjectIndex projects={featuredProjects} />
       </section>
 
       {/* ── Career ── */}
