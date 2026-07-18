@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
 import { projects, type Project } from '@/lib/projects'
 
@@ -13,24 +14,6 @@ const STATUS: Record<Project['status'], { label: string; dot: string; pulse?: bo
   'in-progress': { label: 'in progress', dot: 'bg-amber-400', pulse: true },
   research: { label: 'research', dot: 'bg-violet-400' },
 }
-
-/* Deterministic cover art: every project gets its own gradient seeded from
-   its title, so the page has color without needing real screenshots. */
-function hueOf(title: string) {
-  let h = 0
-  for (let i = 0; i < title.length; i++) h = (h * 31 + title.charCodeAt(i)) % 360
-  return h
-}
-
-function coverOf(title: string) {
-  const h = hueOf(title)
-  return [
-    'radial-gradient(circle at 18% 0%, rgba(255,255,255,0.3), transparent 55%)',
-    `linear-gradient(135deg, oklch(0.62 0.16 ${h}) 0%, oklch(0.34 0.13 ${(h + 70) % 360}) 100%)`,
-  ].join(', ')
-}
-
-const NOISE = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`
 
 function StatusChip({ status }: { status: Project['status'] }) {
   const s = STATUS[status]
@@ -54,24 +37,30 @@ function FeaturedCard({ project, hero = false }: { project: Project; hero?: bool
         hero ? 'sm:col-span-2' : ''
       }`}
     >
-      {/* cover */}
-      <div
-        className={`relative overflow-hidden ${hero ? 'h-40 sm:h-44' : 'h-28'}`}
-        style={{ backgroundImage: coverOf(project.title) }}
-      >
-        <span
-          aria-hidden
-          className="absolute inset-0 opacity-25 mix-blend-overlay"
-          style={{ backgroundImage: NOISE }}
-        />
-        <span
-          aria-hidden
-          className={`pointer-events-none absolute -bottom-6 -right-2 select-none font-display font-bold leading-none text-white/15 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3 ${
-            hero ? 'text-[7.5rem]' : 'text-[5.5rem]'
-          }`}
-        >
-          {project.title[0]}
-        </span>
+      {/* cover: real screenshot of the live project */}
+      <div className={`relative overflow-hidden border-b border-border/60 ${hero ? 'h-44 sm:h-52' : 'h-32'}`}>
+        {project.image ? (
+          <Image
+            src={project.image}
+            alt={`Screenshot of ${project.title}`}
+            fill
+            sizes={hero ? '(max-width: 640px) 100vw, 640px' : '(max-width: 640px) 100vw, 320px'}
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            style={{ objectPosition: project.imagePosition ?? 'top' }}
+          />
+        ) : (
+          <div
+            className="flex h-full items-center justify-center bg-muted"
+            style={{
+              backgroundImage: 'radial-gradient(circle, var(--border) 1px, transparent 1px)',
+              backgroundSize: '14px 14px',
+            }}
+          >
+            <span className="rounded-full border border-border bg-background/80 px-3 py-1.5 font-mono text-[11px] text-muted-foreground">
+              $ building in private, demo soon
+            </span>
+          </div>
+        )}
         <StatusChip status={project.status} />
       </div>
 

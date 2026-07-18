@@ -6,6 +6,10 @@ export interface Project {
   tags: string[]
   github?: string
   demo?: string
+  /** Static screenshot shown on the projects page, path under /public */
+  image?: string
+  /** CSS object-position for the screenshot crop; defaults to 'top' */
+  imagePosition?: string
   featured: boolean
   status: 'completed' | 'in-progress' | 'research'
 }
@@ -35,6 +39,7 @@ export const projects: Project[] = [
     tags: ['TypeScript', 'Next.js', 'Turborepo', 'Whiteboard', 'Canvas'],
     github: 'https://github.com/PDGamerSG/Exciladraw',
     demo: 'https://exciladraw.pallabdas.me/',
+    image: '/projects/exciladraw.png',
     featured: true,
     status: 'in-progress',
 },
@@ -107,6 +112,7 @@ export const projects: Project[] = [
     tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
     github: 'https://github.com/PDGamerSG/Ventilair-Project',
     demo: 'https://lcdas.in/',
+    image: '/projects/ventilair.png',
     featured: true,
     status: 'completed',
 },
@@ -117,6 +123,8 @@ export const projects: Project[] = [
       tags: ['JavaScript', 'Browser Extension', 'Chrome', 'VIT', 'Productivity'],
       github: 'https://github.com/PDGamerSG/VIT-Extension',
       demo:"https://chromewebstore.google.com/detail/VTop+/lfimlnfelmhmiachieegmffalffiacfh",
+      image: '/projects/vtop.png',
+      imagePosition: 'center',
       featured: true,
       status: 'research',
     },
@@ -128,6 +136,7 @@ export const projects: Project[] = [
         featured: true,
         github: 'https://github.com/PDGamerSG/Course-app',
         demo: 'https://course-app-swart-xi.vercel.app',
+        image: '/projects/course-platform.png',
         status: 'in-progress',
     },
     {
@@ -136,7 +145,8 @@ export const projects: Project[] = [
         'The site you are on right now: a fully static, SEO-optimised portfolio and blog built with Next.js 16 and Tailwind CSS v4, with MDX posts, dark and light themes, RSS feed, and an auto-generated sitemap.',
         tags: ['Next.js', 'TypeScript', 'Tailwind CSS'],
         github: 'https://github.com/PDGamerSG/Personal-Website',
-        demo: 'https://pallabdas.dev',
+        demo: 'https://pallabdas.me',
+        image: '/projects/personal-website.png',
         featured: true,
         status: 'in-progress',
     },
@@ -147,6 +157,7 @@ export const projects: Project[] = [
     tags: ['React', 'Python', 'AI', 'Hackathon', 'Supply Chain', 'Data Analytics'],
     github: 'https://github.com/PDGamerSG/Gulab-jamun-Project',
     demo: 'https://gulab-jamun-project.vercel.app/',
+    image: '/projects/gulab-jamun.png',
     featured: true,
     status: 'completed',
 },
