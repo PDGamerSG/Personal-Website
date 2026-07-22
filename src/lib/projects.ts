@@ -18,14 +18,16 @@ export const projects: Project[] = [
 {
     title: 'Centralized Exchange',
     description:
-    'A centralized crypto exchange inspired by Backpack Exchange. Covers the full trading experience: live markets, order book, candlestick charts, and a fast trading UI. In active development.',
+    'A centralized crypto exchange inspired by Backpack Exchange, live at openexchange.pallabdas.me. Covers the full trading experience: live markets, order book, candlestick charts, and a fast trading UI. In active development.',
     highlights: [
       'A centralized crypto exchange inspired by Backpack Exchange, built with Next.js and TypeScript.',
       'Covers the full trading experience: live markets, order book, candlestick charts, and a fast trading UI.',
-      'In active development and my current main focus.',
+      'Live at openexchange.pallabdas.me, in active development and my current main focus.',
     ],
     tags: ['TypeScript', 'Next.js', 'Crypto', 'Trading', 'Full-Stack'],
     github: 'https://github.com/PDGamerSG/Centralized-Exchange',
+    demo: 'https://openexchange.pallabdas.me/',
+    image: '/projects/centralized-exchange.png',
     featured: true,
     status: 'in-progress',
 },

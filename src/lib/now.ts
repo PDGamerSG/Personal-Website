@@ -1,8 +1,8 @@
 export const nowData = {
-  lastUpdated: 'February 24, 2026',
+  lastUpdated: 'July 23, 2026',
 
   learning: [
-    'Building a Backpack-style crypto exchange',
+    'Building OpenExchange, a Backpack-style crypto exchange, now live',
     'Web3 and Solana wallets',
     'Revisiting dev fundamentals',
     'ML models for agentic coding, not vibe coding :)',
@@ -17,6 +17,11 @@ export const nowData = {
   ],
 
   recentlyShipped: [
+    {
+      title: 'OpenExchange — Backpack-style crypto exchange, live in the browser',
+      url: 'https://openexchange.pallabdas.me/',
+      when: 'Jul 2026',
+    },
     {
       title: 'Ventilair India — production website for an industrial manufacturer',
       url: 'https://lcdas.in/',
