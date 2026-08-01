@@ -1,16 +1,18 @@
 import { getAllPosts } from '@/lib/posts'
+import { siteConfig } from '@/lib/seo'
 import type { MetadataRoute } from 'next'
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pallabdas.me'
+const siteUrl = siteConfig.url
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts()
+  const latestPost = posts[0] ? new Date(posts[0].date) : new Date()
 
   const staticPages: MetadataRoute.Sitemap = [
-    { url: siteUrl,                    lastModified: new Date(), changeFrequency: 'weekly',  priority: 1   },
-    { url: `${siteUrl}/writing`,       lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
-    { url: `${siteUrl}/projects`,      lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
-    { url: `${siteUrl}/about`,         lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: siteUrl,               lastModified: new Date(), changeFrequency: 'weekly',  priority: 1   },
+    { url: `${siteUrl}/writing`,  lastModified: latestPost, changeFrequency: 'weekly',  priority: 0.9 },
+    { url: `${siteUrl}/projects`, lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
+    { url: `${siteUrl}/about`,    lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
   ]
 
   const postPages: MetadataRoute.Sitemap = posts.map((post) => ({

@@ -2,11 +2,38 @@ import type { Metadata } from 'next'
 import { getAllPosts } from '@/lib/posts'
 import { nowData } from '@/lib/now'
 import { WritingList } from './writing-list'
+import { absoluteUrl, siteConfig } from '@/lib/seo'
 
 export const metadata: Metadata = {
   title: 'Writing',
   description:
-    'Posts, notes, and learnings by Pallab Das: deep-dives on full-stack dev, AI, machine learning, and daily discoveries.',
+    'Posts, notes, and learnings by Pallab Das: deep-dives on full-stack development, Next.js, AI, machine learning, and daily discoveries.',
+  keywords: ['Pallab Das blog', 'PDGamerSG writing', 'full-stack blog', 'AI learning notes'],
+  alternates: {
+    canonical: '/writing',
+    types: { 'application/rss+xml': [{ url: '/feed.xml', title: 'Pallab Das — Writing' }] },
+  },
+  openGraph: {
+    type: 'website',
+    url: absoluteUrl('/writing'),
+    title: 'Writing | Pallab Das',
+    description:
+      'Notes from the workshop: a running log of building, learning, and thinking out loud.',
+  },
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  '@id': `${absoluteUrl('/writing')}#blog`,
+  url: absoluteUrl('/writing'),
+  name: 'Writing by Pallab Das',
+  description:
+    'Posts, notes, and learnings on full-stack development, AI, and machine learning.',
+  inLanguage: 'en',
+  author: { '@id': `${siteConfig.url}/#person` },
+  publisher: { '@id': `${siteConfig.url}/#person` },
+  isPartOf: { '@id': `${siteConfig.url}/#website` },
 }
 
 function Timeline({ items }: { items: string[] }) {
@@ -31,6 +58,10 @@ export default function WritingPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 md:px-6 space-y-14">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* ── Page header ── */}
       <header className="flex flex-col gap-1">
         <h1 className="text-3xl font-bold tracking-tight text-foreground">Writing</h1>

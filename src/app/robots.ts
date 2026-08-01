@@ -1,10 +1,10 @@
 import type { MetadataRoute } from 'next'
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pallabdas.me'
+import { siteConfig } from '@/lib/seo'
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: { userAgent: '*', allow: '/', disallow: '/api/' },
-    sitemap: `${siteUrl}/sitemap.xml`,
+    sitemap: `${siteConfig.url}/sitemap.xml`,
+    host: siteConfig.url,
   }
 }

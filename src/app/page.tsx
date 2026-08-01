@@ -6,6 +6,19 @@ import { ArrowRight, ArrowUpRight, Github, Twitter, Linkedin } from 'lucide-reac
 import { nowData } from '@/lib/now'
 import { StatStrip } from '@/components/stat-strip'
 import { Career } from '@/components/career'
+import { siteConfig } from '@/lib/seo'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: `${siteConfig.name} — ${siteConfig.tagline}`,
+  description: siteConfig.description,
+  alternates: {
+    canonical: '/',
+    types: {
+      'application/rss+xml': [{ url: '/feed.xml', title: `${siteConfig.name} — Writing` }],
+    },
+  },
+}
 
 export default function HomePage() {
   const posts = getAllPosts().slice(0, 4)
@@ -37,6 +50,10 @@ export default function HomePage() {
             <h1 className="mb-1.5 text-3xl font-bold tracking-tight text-foreground">
               Pallab Das
             </h1>
+
+            <p className="mb-3 text-sm text-muted-foreground/80">
+              Full-Stack &amp; AI/ML Developer · Software Engineering student at VIT Vellore
+            </p>
 
             <p className="mb-4 max-w-lg text-base text-muted-foreground leading-relaxed">
               Just a normal human being experimenting with AI tools, building things, breaking them,

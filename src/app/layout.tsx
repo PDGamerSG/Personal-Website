@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { PageTransition } from '@/components/page-transition'
+import { siteConfig } from '@/lib/seo'
 
 const fraunces = Fraunces({
   variable: '--font-display',
@@ -27,57 +28,94 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pallabdas.me'
+const siteUrl = siteConfig.url
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Pallab Das',
-    template: '%s | Pallab Das',
+    default: `${siteConfig.name} — ${siteConfig.tagline}`,
+    template: `%s | ${siteConfig.name}`,
   },
-  description:
-    'Personal website of Pallab Das (@PDGamerSG) — sharing learnings in full-stack development, AI, and machine learning.',
-  keywords: ['Pallab Das', 'PDGamerSG', 'full-stack developer', 'AI', 'machine learning', 'Next.js', 'Python'],
-  authors: [{ name: 'Pallab Das', url: siteUrl }],
-  creator: 'Pallab Das',
+  description: siteConfig.description,
+  keywords: [...siteConfig.keywords],
+  applicationName: siteConfig.name,
+  authors: [{ name: siteConfig.name, url: siteUrl }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  category: 'technology',
   openGraph: {
     type: 'website',
-    locale: 'en_US',
+    locale: siteConfig.locale,
     url: siteUrl,
-    siteName: 'Pallab Das',
-    title: 'Pallab Das',
-    description:
-      'Personal website of Pallab Das — sharing learnings in full-stack development, AI, and machine learning.',
+    siteName: siteConfig.name,
+    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    description: siteConfig.description,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Pallab Das — Full-Stack & AI/ML Developer',
-    description: 'Sharing learnings in full-stack dev, AI, and machine learning.',
-    creator: '@PDGamerSG',
+    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    description: siteConfig.shortDescription,
+    creator: siteConfig.twitter,
+    site: siteConfig.twitter,
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, 'max-snippet': -1 },
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+    },
   },
   alternates: {
-    canonical: siteUrl,
+    canonical: '/',
+    types: {
+      'application/rss+xml': [{ url: '/feed.xml', title: `${siteConfig.name} — Writing` }],
+    },
+  },
+  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : undefined,
+}
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${siteUrl}/#person`,
+  name: siteConfig.name,
+  alternateName: siteConfig.handle,
+  url: siteUrl,
+  image: `${siteUrl}/pfp.jpg`,
+  sameAs: [siteConfig.socials.github, siteConfig.socials.twitter, siteConfig.socials.linkedin],
+  jobTitle: siteConfig.jobTitle,
+  description: siteConfig.description,
+  knowsAbout: [
+    'Full-stack development',
+    'Next.js',
+    'React',
+    'TypeScript',
+    'Machine learning',
+    'Artificial intelligence',
+    'Web3',
+  ],
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'Vellore Institute of Technology',
+    url: 'https://vit.ac.in/',
   },
 }
 
-const jsonLd = {
+const websiteJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Pallab Das',
+  '@type': 'WebSite',
+  '@id': `${siteUrl}/#website`,
   url: siteUrl,
-  sameAs: [
-    'https://github.com/PDGamerSG',
-    'https://twitter.com/PDGamerSG',
-    'https://www.linkedin.com/in/das-pallab/',
-  ],
-  jobTitle: 'Full-Stack & AI/ML Developer',
-  description:
-    'Learning full-stack development, AI, and machine learning. Building projects and sharing what I learn.',
+  name: siteConfig.name,
+  description: siteConfig.description,
+  inLanguage: 'en',
+  publisher: { '@id': `${siteUrl}/#person` },
 }
 
 export default function RootLayout({
@@ -88,7 +126,11 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
       <body className={`${fraunces.variable} ${jakartaSans.variable} ${jetbrainsMono.variable} antialiased min-h-screen flex flex-col`}>

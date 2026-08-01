@@ -6,16 +6,46 @@ import Link from 'next/link'
 import { GitHubStats } from '@/components/github-stats'
 import { MonkeyTypeStats } from '@/components/monkeytype-stats'
 import { usesData } from '@/lib/uses'
+import { absoluteUrl, siteConfig } from '@/lib/seo'
 
 export const metadata: Metadata = {
-  title: 'About',
+  title: 'About Pallab Das',
   description:
-    'Pallab Das — developer, AI tinkerer. Skills, setup, GitHub activity, and typing stats.',
+    'About Pallab Das (@PDGamerSG) — full-stack and AI/ML developer, Software Engineering student at VIT Vellore. Skills, dev setup, GitHub activity, and typing stats.',
+  keywords: ['about Pallab Das', 'Pallab Das developer', 'PDGamerSG', 'VIT Vellore student developer'],
+  alternates: { canonical: '/about' },
+  openGraph: {
+    type: 'profile',
+    url: absoluteUrl('/about'),
+    title: 'About Pallab Das',
+    description:
+      'Full-stack and AI/ML developer, Software Engineering student at VIT Vellore. Skills, setup, and stats.',
+  },
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  '@id': `${absoluteUrl('/about')}#profilepage`,
+  url: absoluteUrl('/about'),
+  name: 'About Pallab Das',
+  mainEntity: { '@id': `${siteConfig.url}/#person` },
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
+      { '@type': 'ListItem', position: 2, name: 'About', item: absoluteUrl('/about') },
+    ],
+  },
 }
 
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 md:px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Header */}
       <section className="mb-12">
         <div className="mb-6 relative h-20 w-20 overflow-hidden rounded-full ring-2 ring-border">

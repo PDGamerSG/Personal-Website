@@ -3,10 +3,61 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
 import { projects, type Project } from '@/lib/projects'
+import { absoluteUrl, siteConfig } from '@/lib/seo'
 
 export const metadata: Metadata = {
   title: 'Projects',
-  description: 'Projects built by Pallab Das: web apps, tools, and experiments.',
+  description:
+    'Projects built by Pallab Das (@PDGamerSG): a centralized crypto exchange, a collaborative whiteboard, full-stack web apps, AI experiments, and developer tools built with Next.js and TypeScript.',
+  keywords: [
+    'Pallab Das projects',
+    'PDGamerSG projects',
+    'Next.js projects',
+    'TypeScript portfolio',
+    'full-stack side projects',
+  ],
+  alternates: { canonical: '/projects' },
+  openGraph: {
+    type: 'website',
+    url: absoluteUrl('/projects'),
+    title: 'Projects | Pallab Das',
+    description:
+      'Web apps, tools, and experiments built by Pallab Das with Next.js, TypeScript, and AI/ML.',
+  },
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${absoluteUrl('/projects')}#collectionpage`,
+  url: absoluteUrl('/projects'),
+  name: 'Projects by Pallab Das',
+  description: 'Web apps, tools, and experiments built by Pallab Das.',
+  isPartOf: { '@id': `${siteConfig.url}/#website` },
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
+      { '@type': 'ListItem', position: 2, name: 'Projects', item: absoluteUrl('/projects') },
+    ],
+  },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: projects.map((project, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'SoftwareSourceCode',
+        name: project.title,
+        description: project.description,
+        url: project.demo ?? project.github ?? absoluteUrl('/projects'),
+        codeRepository: project.github,
+        programmingLanguage: project.tags,
+        author: { '@id': `${siteConfig.url}/#person` },
+        ...(project.image ? { image: absoluteUrl(project.image) } : {}),
+      },
+    })),
+  },
 }
 
 const STATUS: Record<Project['status'], { label: string; dot: string; pulse?: boolean }> = {
@@ -155,6 +206,10 @@ export default function ProjectsPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 md:px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className="mb-10 flex flex-col gap-1">
         <h1 className="text-3xl font-bold tracking-tight text-foreground">Projects</h1>
         <p className="text-sm text-muted-foreground">

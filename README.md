@@ -107,6 +107,21 @@ Open [http://localhost:3000](http://localhost:3000).
 |---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | Recommended | Full URL of your site e.g. `https://pallabdas.me` |
 | `MONKEYTYPE_API_KEY` | Optional | Enables typing heatmap on the About page |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Optional | Google Search Console verification token (rendered as a `<meta>` tag) |
+
+---
+
+## 🔍 SEO
+
+Handled at build time, no extra config needed:
+
+- Per-page canonicals, titles, descriptions, and keywords
+- Dynamic OG / Twitter cards (`/opengraph-image`, and one per post)
+- JSON-LD: `Person`, `WebSite`, `Blog`, `BlogPosting`, `CollectionPage`, `ProfilePage`, `BreadcrumbList`
+- `sitemap.xml`, `robots.txt`, `manifest.webmanifest`, and an RSS feed at `/feed.xml`
+
+After deploying, submit `https://pallabdas.me/sitemap.xml` in
+[Google Search Console](https://search.google.com/search-console).
 
 ---
 
