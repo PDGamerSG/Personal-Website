@@ -105,7 +105,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 | Variable | Required | Description |
 |---|---|---|
-| `NEXT_PUBLIC_SITE_URL` | Recommended | Full URL of your site e.g. `https://pallabdas.dev` |
+| `NEXT_PUBLIC_SITE_URL` | Recommended | Full URL of your site e.g. `https://pallabdas.me` |
 | `MONKEYTYPE_API_KEY` | Optional | Enables typing heatmap on the About page |
 
 ---

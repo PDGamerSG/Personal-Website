@@ -27,7 +27,7 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pallabdas.dev'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pallabdas.me'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

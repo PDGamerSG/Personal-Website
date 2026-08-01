@@ -1,7 +1,7 @@
 import { getAllPosts } from '@/lib/posts'
 import type { MetadataRoute } from 'next'
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pallabdas.dev'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pallabdas.me'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts()

@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(slug)
   if (!post) return {}
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pallabdas.dev'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pallabdas.me'
 
   return {
     title: post.title,
@@ -49,7 +49,7 @@ export default async function WritingPostPage({ params }: Props) {
   const post = getPostBySlug(slug)
   if (!post) notFound()
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pallabdas.dev'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pallabdas.me'
 
   const jsonLd = {
     '@context': 'https://schema.org',
