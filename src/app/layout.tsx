@@ -87,7 +87,21 @@ const personJsonLd = {
   name: siteConfig.name,
   alternateName: siteConfig.handle,
   url: siteUrl,
-  image: `${siteUrl}/pfp.jpg`,
+  mainEntityOfPage: { '@id': `${siteUrl}/#website` },
+  /**
+   * An ImageObject with explicit dimensions, rather than a bare URL string —
+   * Google will not consider a portrait for a knowledge panel unless it can
+   * establish the source URL and size without fetching it first.
+   */
+  image: {
+    '@type': 'ImageObject',
+    '@id': `${siteUrl}/#portrait`,
+    url: `${siteUrl}/pfp.jpg`,
+    contentUrl: `${siteUrl}/pfp.jpg`,
+    width: 728,
+    height: 782,
+    caption: `${siteConfig.name} — ${siteConfig.jobTitle}`,
+  },
   sameAs: [
     siteConfig.socials.github,
     siteConfig.socials.twitter,

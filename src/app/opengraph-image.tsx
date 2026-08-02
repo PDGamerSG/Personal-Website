@@ -1,3 +1,5 @@
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import { ImageResponse } from 'next/og'
 import { siteConfig } from '@/lib/seo'
 
@@ -5,7 +7,19 @@ export const alt = `${siteConfig.name} — ${siteConfig.tagline}`
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
-export default function OpenGraphImage() {
+/**
+ * Satori has no filesystem access, so the avatar is inlined as a data URI.
+ * Reading it at render time (rather than importing) keeps the file the single
+ * source of truth shared with the `/pfp.jpg` the pages and JSON-LD point at.
+ */
+async function avatarDataUri() {
+  const bytes = await readFile(join(process.cwd(), 'public', 'pfp.jpg'))
+  return `data:image/jpeg;base64,${bytes.toString('base64')}`
+}
+
+export default async function OpenGraphImage() {
+  const avatar = await avatarDataUri()
+
   return new ImageResponse(
     (
       <div
@@ -26,24 +40,40 @@ export default function OpenGraphImage() {
           {siteConfig.url.replace('https://', '')}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ display: 'flex', fontSize: 88, fontWeight: 700, letterSpacing: -2 }}>
-            {siteConfig.name}
-          </div>
-          <div style={{ display: 'flex', marginTop: 16, fontSize: 40, color: '#d4d4d8' }}>
-            {siteConfig.tagline}
-          </div>
-          <div
+        <div style={{ display: 'flex', alignItems: 'center', gap: 48 }}>
+          <img
+            src={avatar}
+            width={260}
+            height={260}
+            alt={siteConfig.name}
             style={{
-              display: 'flex',
-              marginTop: 28,
-              fontSize: 26,
-              color: '#a1a1aa',
-              maxWidth: 900,
-              lineHeight: 1.4,
+              width: 260,
+              height: 260,
+              borderRadius: 130,
+              objectFit: 'cover',
+              border: '4px solid rgba(250,250,250,0.14)',
             }}
-          >
-            {siteConfig.shortDescription}
+          />
+
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', fontSize: 76, fontWeight: 700, letterSpacing: -2 }}>
+              {siteConfig.name}
+            </div>
+            <div style={{ display: 'flex', marginTop: 12, fontSize: 34, color: '#d4d4d8' }}>
+              {siteConfig.tagline}
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                marginTop: 20,
+                fontSize: 24,
+                color: '#a1a1aa',
+                maxWidth: 560,
+                lineHeight: 1.4,
+              }}
+            >
+              {siteConfig.shortDescription}
+            </div>
           </div>
         </div>
 
