@@ -14,7 +14,12 @@ export const siteConfig = {
     github: 'https://github.com/PDGamerSG',
     twitter: 'https://x.com/Pallab4249',
     linkedin: 'https://www.linkedin.com/in/das-pallab/',
+    instagram: 'https://www.instagram.com/pallabdas_pd/',
   },
+  /** Route for the in-browser resume viewer. */
+  resume: '/resume',
+  /** The raw PDF, for embedding and downloads. */
+  resumeFile: '/Pallab-Das-Resume.pdf',
   keywords: [
     'Pallab Das',
     'PDGamerSG',

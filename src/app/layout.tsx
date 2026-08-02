@@ -88,7 +88,12 @@ const personJsonLd = {
   alternateName: siteConfig.handle,
   url: siteUrl,
   image: `${siteUrl}/pfp.jpg`,
-  sameAs: [siteConfig.socials.github, siteConfig.socials.twitter, siteConfig.socials.linkedin],
+  sameAs: [
+    siteConfig.socials.github,
+    siteConfig.socials.twitter,
+    siteConfig.socials.linkedin,
+    siteConfig.socials.instagram,
+  ],
   jobTitle: siteConfig.jobTitle,
   description: siteConfig.description,
   knowsAbout: [

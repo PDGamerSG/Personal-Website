@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getAllPosts } from '@/lib/posts'
 import { projects } from '@/lib/projects'
-import { ArrowRight, ArrowUpRight, Github, Twitter, Linkedin } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Github, Twitter, Linkedin, Instagram, FileText } from 'lucide-react'
 import { nowData } from '@/lib/now'
 import { StatStrip } from '@/components/stat-strip'
 import { Career } from '@/components/career'
@@ -75,7 +75,20 @@ export default function HomePage() {
                 className="flex items-center gap-1.5 transition-colors hover:text-foreground">
                 <Twitter className="h-3.5 w-3.5" /> Twitter
               </Link>
+              <span className="text-border/60">·</span>
+              <Link href={siteConfig.socials.instagram} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-1.5 transition-colors hover:text-foreground">
+                <Instagram className="h-3.5 w-3.5" /> Instagram
+              </Link>
             </div>
+
+            <Link
+              href={siteConfig.resume}
+              className="group mt-4 inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/60 hover:text-foreground"
+            >
+              <FileText className="h-3.5 w-3.5" /> Resume
+              <ArrowRight className="h-3.5 w-3.5 opacity-65 transition-transform group-hover:translate-x-0.5" />
+            </Link>
           </div>
 
         </div>

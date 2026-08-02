@@ -5,12 +5,14 @@ import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { siteConfig } from '@/lib/seo'
 
-const navLinks = [
+const navLinks: { href: string; label: string; external?: boolean }[] = [
   { href: '/', label: 'Home' },
   { href: '/writing', label: 'Writing' },
   { href: '/projects', label: 'Projects' },
   { href: '/about', label: 'About' },
+  { href: siteConfig.resume, label: 'Resume' },
 ]
 
 function HamburgerIcon({ open }: { open: boolean }) {
@@ -31,12 +33,13 @@ export function HeaderNav() {
     <>
       {/* Desktop nav */}
       <nav className="hidden items-center gap-1 md:flex">
-        {navLinks.map(({ href, label }) => {
+        {navLinks.map(({ href, label, external }) => {
           const active = pathname === href
           return (
             <Link
               key={href}
               href={href}
+              {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               className={cn(
                 'px-3 py-1.5 text-sm font-medium transition-colors',
                 active
@@ -69,12 +72,13 @@ export function HeaderNav() {
         mobileOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
       )}>
         <nav className="border-t border-border/40 bg-background/95 backdrop-blur-sm px-4 py-3">
-          {navLinks.map(({ href, label }, i) => {
+          {navLinks.map(({ href, label, external }, i) => {
             const active = pathname === href
             return (
               <Link
                 key={href}
                 href={href}
+                {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 onClick={() => setMobileOpen(false)}
                 style={{ transitionDelay: mobileOpen ? `${i * 40}ms` : '0ms' }}
                 className={cn(

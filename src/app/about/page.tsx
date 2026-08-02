@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { Separator } from '@/components/ui/separator'
-import { Github, Twitter, Linkedin, ExternalLink } from 'lucide-react'
+import { Github, Twitter, Linkedin, Instagram, FileText, ArrowRight, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 import { GitHubStats } from '@/components/github-stats'
 import { MonkeyTypeStats } from '@/components/monkeytype-stats'
@@ -79,7 +79,20 @@ export default function AboutPage() {
             className="flex items-center gap-1.5 transition-colors hover:text-foreground">
             <Twitter className="h-4 w-4" /> @Pallab4249
           </Link>
+          <span className="text-border/60">·</span>
+          <Link href={siteConfig.socials.instagram} target="_blank" rel="noopener noreferrer"
+            className="flex items-center gap-1.5 transition-colors hover:text-foreground">
+            <Instagram className="h-4 w-4" /> pallabdas_pd
+          </Link>
         </div>
+
+        <Link
+          href={siteConfig.resume}
+          className="group mt-6 inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/60 hover:text-foreground"
+        >
+          <FileText className="h-4 w-4" /> Resume
+          <ArrowRight className="h-3.5 w-3.5 opacity-65 transition-transform group-hover:translate-x-0.5" />
+        </Link>
       </section>
 
       <Separator className="mb-12" />
