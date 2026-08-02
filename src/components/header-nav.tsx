@@ -12,7 +12,7 @@ const navLinks: { href: string; label: string; external?: boolean }[] = [
   { href: '/writing', label: 'Writing' },
   { href: '/projects', label: 'Projects' },
   { href: '/about', label: 'About' },
-  { href: siteConfig.resume, label: 'Resume' },
+  { href: siteConfig.resume, label: 'Resume', external: true },
 ]
 
 function HamburgerIcon({ open }: { open: boolean }) {

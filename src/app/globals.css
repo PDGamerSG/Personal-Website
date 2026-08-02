@@ -182,13 +182,12 @@
     transition-duration: 150ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
-  button:active,
-  [role="button"]:active {
-    transform: scale(0.96);
-  }
-  button:hover,
-  [role="button"]:hover {
-    transform: translateY(-1px);
+  /* Guarded: on touch, :hover latches after a tap and leaves buttons raised. */
+  @media (hover: hover) {
+    button:hover,
+    [role="button"]:hover {
+      transform: translateY(-1px);
+    }
   }
   button:active,
   [role="button"]:active {

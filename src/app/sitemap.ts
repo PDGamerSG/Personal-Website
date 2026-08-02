@@ -13,7 +13,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/writing`,  lastModified: latestPost, changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${siteUrl}/projects`, lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${siteUrl}/about`,    lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${siteUrl}/resume`,   lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
   ]
 
   const postPages: MetadataRoute.Sitemap = posts.map((post) => ({

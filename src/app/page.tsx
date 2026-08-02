@@ -2,10 +2,11 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getAllPosts } from '@/lib/posts'
 import { projects } from '@/lib/projects'
-import { ArrowRight, ArrowUpRight, Github, Twitter, Linkedin, Instagram, FileText } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Github, Twitter, Linkedin, Instagram } from 'lucide-react'
 import { nowData } from '@/lib/now'
 import { StatStrip } from '@/components/stat-strip'
 import { Career } from '@/components/career'
+import { HireMe } from '@/components/hire-me'
 import { siteConfig } from '@/lib/seo'
 import type { Metadata } from 'next'
 
@@ -19,6 +20,13 @@ export const metadata: Metadata = {
     },
   },
 }
+
+const socials = [
+  { href: siteConfig.socials.github, label: 'GitHub', icon: Github },
+  { href: siteConfig.socials.linkedin, label: 'LinkedIn', icon: Linkedin },
+  { href: siteConfig.socials.twitter, label: 'Twitter', icon: Twitter },
+  { href: siteConfig.socials.instagram, label: 'Instagram', icon: Instagram },
+]
 
 export default function HomePage() {
   const posts = getAllPosts().slice(0, 4)
@@ -55,42 +63,33 @@ export default function HomePage() {
               Full-Stack &amp; AI/ML Developer · Software Engineering student at VIT Vellore
             </p>
 
-            <p className="mb-4 max-w-lg text-base text-muted-foreground leading-relaxed">
+            <p className="max-w-lg text-base text-muted-foreground leading-relaxed">
               Just a normal human being experimenting with AI tools, building things, breaking them,
               and figuring out how it all works. This is my corner of the internet.
             </p>
-
-            <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-              <Link href="https://github.com/PDGamerSG" target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-1.5 transition-colors hover:text-foreground">
-                <Github className="h-3.5 w-3.5" /> GitHub
-              </Link>
-              <span className="text-border/60">·</span>
-              <Link href="https://www.linkedin.com/in/das-pallab/" target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-1.5 transition-colors hover:text-foreground">
-                <Linkedin className="h-3.5 w-3.5" /> LinkedIn
-              </Link>
-              <span className="text-border/60">·</span>
-              <Link href="https://x.com/Pallab4249" target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-1.5 transition-colors hover:text-foreground">
-                <Twitter className="h-3.5 w-3.5" /> Twitter
-              </Link>
-              <span className="text-border/60">·</span>
-              <Link href={siteConfig.socials.instagram} target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-1.5 transition-colors hover:text-foreground">
-                <Instagram className="h-3.5 w-3.5" /> Instagram
-              </Link>
-            </div>
-
-            <Link
-              href={siteConfig.resume}
-              className="group mt-4 inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/60 hover:text-foreground"
-            >
-              <FileText className="h-3.5 w-3.5" /> Resume
-              <ArrowRight className="h-3.5 w-3.5 opacity-65 transition-transform group-hover:translate-x-0.5" />
-            </Link>
           </div>
 
+        </div>
+
+        {/* ── Action bar — spans the full column so nothing is left hanging under the avatar ── */}
+        <div className="mt-7 flex flex-col gap-5 border-t border-border/60 pt-6 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+          <HireMe />
+
+          <div className="flex items-center gap-0.5 sm:gap-1">
+            {socials.map(({ href, label, icon: Icon }) => (
+              <Link
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                title={label}
+                className="group flex h-9 w-9 items-center justify-center rounded-full border border-transparent text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-border/70 hover:bg-secondary/60 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              >
+                <Icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 

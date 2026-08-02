@@ -1,13 +1,14 @@
 import Link from 'next/link'
-import { Github, Twitter, Linkedin, Instagram, FileText, type LucideIcon } from 'lucide-react'
-import { siteConfig } from '@/lib/seo'
+import { Github, Twitter, Linkedin, Instagram, FileText, Mail, type LucideIcon } from 'lucide-react'
+import { gmailComposeUrl, siteConfig } from '@/lib/seo'
 
-const socialLinks: { href: string; label: string; icon: LucideIcon; internal?: boolean }[] = [
+const socialLinks: { href: string; label: string; icon: LucideIcon }[] = [
   { href: siteConfig.socials.github, label: 'GitHub', icon: Github },
   { href: siteConfig.socials.twitter, label: 'Twitter / X', icon: Twitter },
   { href: siteConfig.socials.linkedin, label: 'LinkedIn', icon: Linkedin },
   { href: siteConfig.socials.instagram, label: 'Instagram', icon: Instagram },
-  { href: siteConfig.resume, label: 'Resume', icon: FileText, internal: true },
+  { href: siteConfig.resume, label: 'Resume', icon: FileText },
+  { href: gmailComposeUrl(), label: 'Email', icon: Mail },
 ]
 
 export function Footer() {
@@ -21,11 +22,12 @@ export function Footer() {
             © {year} Pallab Das
           </p>
           <nav className="flex items-center gap-3" aria-label="Social links">
-            {socialLinks.map(({ href, label, icon: Icon, internal }) => (
+            {socialLinks.map(({ href, label, icon: Icon }) => (
               <Link
                 key={href}
                 href={href}
-                {...(internal ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={label}
                 className="text-muted-foreground transition-colors hover:text-foreground"
               >
