@@ -13,6 +13,8 @@ interface ContributionsResponse {
   contributions: { date: string; count: number }[]
 }
 
+const MONKEYTYPE_PROFILE = 'https://monkeytype.com/profile/PDGamerSG'
+
 async function getMonkeyType(): Promise<{ streak: number; bestWpm: number } | null> {
   try {
     const res = await fetch('https://api.monkeytype.com/users/PDGamerSG/profile', {
@@ -55,7 +57,7 @@ export async function StatStrip() {
     <section className="flex flex-wrap items-center gap-2">
       {mt && mt.streak > 0 && (
         <Badge asChild variant="outline" className={pillClass}>
-          <Link href="/about">
+          <Link href={MONKEYTYPE_PROFILE} target="_blank" rel="noopener noreferrer">
             <Flame className="text-orange-500" />
             <span>
               <span className="font-semibold tabular-nums text-foreground">{mt.streak}</span>
@@ -66,7 +68,7 @@ export async function StatStrip() {
       )}
       {mt && mt.bestWpm > 0 && (
         <Badge asChild variant="outline" className={pillClass}>
-          <Link href="/about">
+          <Link href={MONKEYTYPE_PROFILE} target="_blank" rel="noopener noreferrer">
             <Keyboard className="text-primary" />
             <span>
               <span className="font-semibold tabular-nums text-foreground">{mt.bestWpm}</span> wpm
