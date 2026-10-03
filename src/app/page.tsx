@@ -7,6 +7,7 @@ import { nowData } from '@/lib/now'
 import { StatStrip } from '@/components/stat-strip'
 import { Career } from '@/components/career'
 import { HireMe } from '@/components/hire-me'
+import { SpaceSnake } from '@/components/space-snake'
 import { siteConfig } from '@/lib/seo'
 import type { Metadata } from 'next'
 
@@ -37,6 +38,8 @@ export default function HomePage() {
 
       {/* ── Hero ── */}
       <section>
+        <SpaceSnake className="mb-10" />
+
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
 
           {/* Avatar */}
