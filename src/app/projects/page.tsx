@@ -97,6 +97,8 @@ function FeaturedCard({ project, hero = false }: { project: Project; hero?: bool
               alt={`Screenshot of ${project.title}`}
               fill
               sizes={hero ? '(max-width: 640px) 100vw, 640px' : '(max-width: 640px) 100vw, 320px'}
+              // the hero card's screenshot is the page's LCP, so don't lazy-load it
+              loading={hero ? 'eager' : undefined}
               className={`object-cover transition-transform duration-500 group-hover:scale-[1.03] ${project.imageDark ? 'dark:hidden' : ''}`}
               style={{ objectPosition: project.imagePosition ?? 'top' }}
             />
@@ -106,6 +108,7 @@ function FeaturedCard({ project, hero = false }: { project: Project; hero?: bool
                 alt={`Screenshot of ${project.title}`}
                 fill
                 sizes={hero ? '(max-width: 640px) 100vw, 640px' : '(max-width: 640px) 100vw, 320px'}
+                loading={hero ? 'eager' : undefined}
                 className="hidden object-cover transition-transform duration-500 group-hover:scale-[1.03] dark:block"
                 style={{ objectPosition: project.imagePosition ?? 'top' }}
               />

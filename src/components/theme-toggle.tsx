@@ -3,15 +3,20 @@
 import { useTheme } from 'next-themes'
 import { Moon, Sun } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
 import { flushSync } from 'react-dom'
+
+const noopSubscribe = () => () => {}
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  // Avoid hydration mismatch
-  useEffect(() => setMounted(true), [])
+  // false on the server and during hydration, true after: avoids a mismatch
+  // without a setState-in-effect re-render
+  const mounted = useSyncExternalStore(
+    noopSubscribe,
+    () => true,
+    () => false,
+  )
 
   if (!mounted) {
     return (

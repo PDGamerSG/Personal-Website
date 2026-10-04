@@ -57,12 +57,12 @@ export default function AboutPage() {
         <p className="mb-1 font-mono text-sm text-muted-foreground">@PDGamerSG</p>
         <div className="mb-6 max-w-lg space-y-3 text-base text-muted-foreground leading-relaxed">
           <p>
-            Sup, I'm Pallab, a Software Engineering student at VIT, Vellore, who spends way too much time crafting
+            Sup, I&apos;m Pallab, a Software Engineering student at VIT, Vellore, who spends way too much time crafting
             things on the internet. I got into dev because I wanted to make stuff people actually use,
-            and I've been trying since then
+            and I&apos;ve been trying since then
           </p>
           <p>
-            Right now I'm into development, machine learning and also starting Web 3. Outside of code: I do daily typing practice on MonkeyType that's my hobby yaa i like it tho<br />
+            Right now I&apos;m into development, machine learning and also starting Web 3. Outside of code: I do daily typing practice on MonkeyType that&apos;s my hobby yaa i like it tho<br />
             btw enjoying this time with a cup of coffee ☕
           </p>
         </div>

@@ -167,8 +167,11 @@ export function DotName({ text, className }: { text: string; className?: string 
       o.fillText(text, PAD * dpr, PAD * dpr + (rect.height * dpr - inkH) / 2 + ascent)
       const data = o.getImageData(0, 0, W, H).data
 
-      const gap = Math.max(3, Math.round(fontSize / 17)) * dpr
-      radius = gap * 0.36
+      // Phone sizes keep the grid fine enough to stay legible and shrink the
+      // dots instead, so there's still daylight between them.
+      const small = fontSize < 64
+      const gap = (small ? Math.max(2.5, fontSize / 16) : Math.round(fontSize / 17)) * dpr
+      radius = gap * (small ? 0.3 : 0.36)
       const next: Dot[] = []
       for (let y = gap / 2; y < H; y += gap) {
         for (let x = gap / 2; x < W; x += gap) {
@@ -266,7 +269,7 @@ export function DotName({ text, className }: { text: string; className?: string 
       <h1
         ref={headingRef}
         className={cn(
-          'whitespace-nowrap text-[clamp(2.25rem,12vw,5.75rem)] font-bold leading-[1.05] tracking-tight transition-colors duration-500',
+          'whitespace-nowrap text-[clamp(2rem,calc((100vw-7.5rem)/5.4),5.75rem)] sm:text-[clamp(2.25rem,12vw,5.75rem)] font-bold leading-[1.05] tracking-tight transition-colors duration-500',
           ready ? 'text-transparent' : 'text-foreground',
         )}
       >
