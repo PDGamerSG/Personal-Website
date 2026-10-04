@@ -21,7 +21,9 @@ const DAMPING = 0.83
 /**
  * The hero name, re-drawn as the same dot matrix the space snake lives in.
  * Dots sweep in once on load, shy away from the cursor, and scatter on click
- * before settling back into the letters.
+ * before settling back into the letters. Dragging across the name (mouse or
+ * finger) pushes the dots away like hovering does and also sweeps them along
+ * in the drag direction.
  *
  * The real <h1> stays in the DOM underneath (transparent once the canvas is
  * up), so it still sizes the layout and is what screen readers and crawlers
@@ -47,6 +49,10 @@ export function DotName({ text, className }: { text: string; className?: string 
     let H = 0
     let radius = 1
     let pointer: { x: number; y: number } | null = null
+    // the pointer currently pressed on the name, if any
+    let drag: { id: number; touch: boolean; sx: number; sy: number; lx: number; ly: number; moved: boolean } | null = null
+    // recent drag motion; it pushes nearby dots along and fades out each frame
+    const flow = { x: 0, y: 0 }
     let raf = 0
     let running = false
     let introAt = 0
@@ -85,6 +91,10 @@ export function DotName({ text, className }: { text: string; className?: string 
       const R = 72 * dpr
       let energy = 0
       let pending = false
+      const decay = 0.78 ** k
+      flow.x *= decay
+      flow.y *= decay
+      const flowing = Math.abs(flow.x) + Math.abs(flow.y) > 0.1 * dpr
       for (const d of dots) {
         if (now < introAt + d.delay) {
           pending = true
@@ -100,6 +110,11 @@ export function DotName({ text, className }: { text: string; className?: string 
             const f = (1 - dist / R) ** 2 * 7 * dpr
             ax += (dx / dist) * f
             ay += (dy / dist) * f
+            if (flowing) {
+              const sweep = (1 - dist / R) * 0.2
+              ax += flow.x * sweep
+              ay += flow.y * sweep
+            }
           }
         }
         d.vx = (d.vx + ax * k) * DAMPING
@@ -109,7 +124,7 @@ export function DotName({ text, className }: { text: string; className?: string 
         energy += Math.abs(d.vx) + Math.abs(d.vy) + Math.abs(d.hx - d.x) + Math.abs(d.hy - d.y)
       }
       draw()
-      if (pending || pointer || energy > dots.length * 0.05) {
+      if (pending || pointer || flowing || energy > dots.length * 0.05) {
         raf = requestAnimationFrame(step)
       } else {
         // settled: snap home and let the loop sleep until something wakes it
@@ -202,6 +217,17 @@ export function DotName({ text, className }: { text: string; className?: string 
     }
 
     const onMove = (e: PointerEvent) => {
+      if (drag && e.pointerId === drag.id) {
+        const p = toLocal(e.clientX, e.clientY)
+        flow.x += p.x - drag.lx
+        flow.y += p.y - drag.ly
+        drag.lx = p.x
+        drag.ly = p.y
+        if (Math.hypot(p.x - drag.sx, p.y - drag.sy) > 6 * dpr) drag.moved = true
+        pointer = { x: p.x, y: p.y }
+        wake()
+        return
+      }
       if (e.pointerType === 'touch') return
       const p = toLocal(e.clientX, e.clientY)
       if (p.inside) {
@@ -219,9 +245,7 @@ export function DotName({ text, className }: { text: string; className?: string 
     }
 
     // A click (or tap) blows the letters apart from that point.
-    const onDown = (e: PointerEvent) => {
-      if (reduce) return
-      const p = toLocal(e.clientX, e.clientY)
+    const scatter = (p: { x: number; y: number }) => {
       for (const d of dots) {
         const dx = d.x - p.x
         const dy = d.y - p.y
@@ -230,6 +254,29 @@ export function DotName({ text, className }: { text: string; className?: string 
         d.vx += (dx / dist) * f + (Math.random() - 0.5) * 4 * dpr
         d.vy += (dy / dist) * f + (Math.random() - 0.5) * 4 * dpr
       }
+      wake()
+    }
+
+    // Pressing starts a drag. Fingers have no hover, so a touch acts as the
+    // cursor for as long as it's down. Letting go without moving is a click.
+    const onDown = (e: PointerEvent) => {
+      if (reduce || drag || (e.pointerType === 'mouse' && e.button !== 0)) return
+      const p = toLocal(e.clientX, e.clientY)
+      const touch = e.pointerType !== 'mouse'
+      drag = { id: e.pointerId, touch, sx: p.x, sy: p.y, lx: p.x, ly: p.y, moved: false }
+      flow.x = flow.y = 0
+      if (touch) {
+        pointer = { x: p.x, y: p.y }
+        wake()
+      }
+    }
+
+    const onUp = (e: PointerEvent) => {
+      if (!drag || e.pointerId !== drag.id) return
+      const { touch, moved } = drag
+      drag = null
+      if (touch) pointer = null
+      if (!moved && e.type === 'pointerup') scatter(toLocal(e.clientX, e.clientY))
       wake()
     }
 
@@ -252,6 +299,8 @@ export function DotName({ text, className }: { text: string; className?: string 
     window.addEventListener('pointermove', onMove, { passive: true })
     document.addEventListener('pointerleave', onLeave)
     wrap.addEventListener('pointerdown', onDown)
+    window.addEventListener('pointerup', onUp)
+    window.addEventListener('pointercancel', onUp)
 
     return () => {
       disposed = true
@@ -261,11 +310,13 @@ export function DotName({ text, className }: { text: string; className?: string 
       window.removeEventListener('pointermove', onMove)
       document.removeEventListener('pointerleave', onLeave)
       wrap.removeEventListener('pointerdown', onDown)
+      window.removeEventListener('pointerup', onUp)
+      window.removeEventListener('pointercancel', onUp)
     }
   }, [text])
 
   return (
-    <div ref={wrapRef} className={cn('relative w-fit select-none', className)}>
+    <div ref={wrapRef} className={cn('relative w-fit touch-pan-y select-none', className)}>
       <h1
         ref={headingRef}
         className={cn(

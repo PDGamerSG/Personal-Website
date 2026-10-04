@@ -265,3 +265,16 @@
   .rail { animation: none; }
   .caret-idle { animation: none; }
 }
+
+/* nav squiggle: the wave ripples along while it crawls to the next link */
+.squiggle {
+  mask-repeat: repeat-x;
+  -webkit-mask-repeat: repeat-x;
+}
+.squiggle[data-moving] { animation: squiggleCrawl 0.32s linear infinite; }
+@keyframes squiggleCrawl {
+  to { mask-position: 8px 0; -webkit-mask-position: 8px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .squiggle[data-moving] { animation: none; }
+}
