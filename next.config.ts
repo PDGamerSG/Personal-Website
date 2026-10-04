@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // 90 is used for the homepage portrait, which shows compression at 75
+  images: { qualities: [75, 90] },
   serverExternalPackages: ['gray-matter', 'reading-time'],
   /**
    * The OG image routes read `public/pfp.jpg` off disk at render time. Tracing

@@ -91,14 +91,26 @@ function FeaturedCard({ project, hero = false }: { project: Project; hero?: bool
       {/* cover: real screenshot of the live project */}
       <div className={`relative overflow-hidden border-b border-border/60 ${hero ? 'h-44 sm:h-52' : 'h-32'}`}>
         {project.image ? (
-          <Image
-            src={project.image}
-            alt={`Screenshot of ${project.title}`}
-            fill
-            sizes={hero ? '(max-width: 640px) 100vw, 640px' : '(max-width: 640px) 100vw, 320px'}
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-            style={{ objectPosition: project.imagePosition ?? 'top' }}
-          />
+          <>
+            <Image
+              src={project.image}
+              alt={`Screenshot of ${project.title}`}
+              fill
+              sizes={hero ? '(max-width: 640px) 100vw, 640px' : '(max-width: 640px) 100vw, 320px'}
+              className={`object-cover transition-transform duration-500 group-hover:scale-[1.03] ${project.imageDark ? 'dark:hidden' : ''}`}
+              style={{ objectPosition: project.imagePosition ?? 'top' }}
+            />
+            {project.imageDark && (
+              <Image
+                src={project.imageDark}
+                alt={`Screenshot of ${project.title}`}
+                fill
+                sizes={hero ? '(max-width: 640px) 100vw, 640px' : '(max-width: 640px) 100vw, 320px'}
+                className="hidden object-cover transition-transform duration-500 group-hover:scale-[1.03] dark:block"
+                style={{ objectPosition: project.imagePosition ?? 'top' }}
+              />
+            )}
+          </>
         ) : (
           <div
             className="flex h-full items-center justify-center bg-muted"

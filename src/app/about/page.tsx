@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { Separator } from '@/components/ui/separator'
-import { Github, Twitter, Linkedin, Instagram, ExternalLink } from 'lucide-react'
+import { Github, Linkedin, Instagram, ExternalLink } from 'lucide-react'
+import { XIcon } from '@/components/icons'
 import Link from 'next/link'
 import { GitHubStats } from '@/components/github-stats'
 import { HireMe } from '@/components/hire-me'
@@ -80,7 +81,7 @@ export default function AboutPage() {
           <span className="text-border/60">·</span>
           <Link href="https://x.com/Pallab4249" target="_blank" rel="noopener noreferrer"
             className="flex items-center gap-1.5 transition-colors hover:text-foreground">
-            <Twitter className="h-4 w-4" /> @Pallab4249
+            <XIcon className="h-3.5 w-3.5" /> @Pallab4249
           </Link>
           <span className="text-border/60">·</span>
           <Link href={siteConfig.socials.instagram} target="_blank" rel="noopener noreferrer"
