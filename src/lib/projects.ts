@@ -6,8 +6,10 @@ export interface Project {
   tags: string[]
   github?: string
   demo?: string
-  /** Static screenshot shown on the projects page, path under /public */
+  /** Screenshot shown on the homepage and projects page, path under /public. Used in light mode, and in dark mode when there is no imageDark. */
   image?: string
+  /** Dark-theme screenshot of the same view, shown when the site is in dark mode */
+  imageDark?: string
   /** CSS object-position for the screenshot crop; defaults to 'top' */
   imagePosition?: string
   featured: boolean
@@ -16,18 +18,34 @@ export interface Project {
 
 export const projects: Project[] = [
 {
+    title: 'Relay: Workflow Orchestration Engine',
+    description:
+    'A durable workflow engine for LLM agents. A planner model turns a goal into a graph of steps that run in parallel, every result is saved to Postgres, and a crashed run picks up from the last finished step. One Next.js app with a live dashboard, deployable to Vercel with Neon.',
+    highlights: [
+      'A durable workflow engine that turns a goal into a graph of LLM steps running in parallel.',
+      'Saves every result, so a crashed run picks up where it stopped.',
+    ],
+    tags: ['TypeScript', 'Next.js', 'Postgres', 'LLM Agents', 'Bun'],
+    github: 'https://github.com/PDGamerSG/Workflow-Orchestration-Engine',
+    image: '/projects/relay-light.png',
+    imageDark: '/projects/relay-dark.png',
+    imagePosition: '50% 45%',
+    featured: true,
+    status: 'in-progress',
+},
+{
     title: 'Centralized Exchange',
     description:
     'A centralized crypto exchange inspired by Backpack Exchange, live at openexchange.pallabdas.me. Covers the full trading experience: live markets, order book, candlestick charts, and a fast trading UI. In active development.',
     highlights: [
-      'A centralized crypto exchange inspired by Backpack Exchange, built with Next.js and TypeScript.',
-      'Covers the full trading experience: live markets, order book, candlestick charts, and a fast trading UI.',
-      'Live at openexchange.pallabdas.me, in active development and my current main focus.',
+      'A crypto exchange inspired by Backpack, with live markets, an order book and charts.',
+      'Live at openexchange.pallabdas.me and my current main focus.',
     ],
     tags: ['TypeScript', 'Next.js', 'Crypto', 'Trading', 'Full-Stack'],
     github: 'https://github.com/PDGamerSG/Centralized-Exchange',
     demo: 'https://openexchange.pallabdas.me/',
-    image: '/projects/centralized-exchange.png',
+    image: '/projects/cex-light.png',
+    imageDark: '/projects/cex-dark.png',
     featured: true,
     status: 'in-progress',
 },
@@ -36,8 +54,8 @@ export const projects: Project[] = [
     description:
     'A collaborative whiteboard and drawing tool in the spirit of Excalidraw. Built as a Turborepo monorepo with multiple Next.js apps and a shared component library, fully typed in TypeScript.',
     highlights: [
-      'A collaborative whiteboard and drawing tool in the spirit of Excalidraw.',
-      'Structured as a Turborepo monorepo: multiple Next.js apps sharing one component library, fully typed in TypeScript.',
+      'A collaborative whiteboard in the spirit of Excalidraw.',
+      'Sketch shapes, arrows and notes together, synced live for everyone in the room.',
     ],
     tags: ['TypeScript', 'Next.js', 'Turborepo', 'Whiteboard', 'Canvas'],
     github: 'https://github.com/PDGamerSG/Exciladraw',
@@ -51,8 +69,8 @@ export const projects: Project[] = [
     description:
     'An automation platform inspired by Zapier. Wire services together into automated workflows through a visual builder backed by a custom hooks system, all in TypeScript.',
     highlights: [
-      'An automation platform inspired by Zapier for wiring services together into workflows.',
-      'A visual builder on the frontend, backed by a custom hooks system, all in TypeScript.',
+      'An automation platform for wiring services together into workflows.',
+      'A visual builder backed by a custom hooks system.',
     ],
     tags: ['TypeScript', 'Automation', 'Full-Stack'],
     github: 'https://github.com/PDGamerSG/Zapier',

@@ -2,14 +2,20 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getAllPosts } from '@/lib/posts'
 import { projects } from '@/lib/projects'
-import { ArrowRight, ArrowUpRight, Github, Twitter, Linkedin, Instagram } from 'lucide-react'
+import { ArrowRight, Github, Linkedin, Instagram } from 'lucide-react'
 import { nowData } from '@/lib/now'
 import { StatStrip } from '@/components/stat-strip'
 import { Career } from '@/components/career'
 import { HireMe } from '@/components/hire-me'
 import { SpaceSnake } from '@/components/space-snake'
+import { DotName } from '@/components/dot-name'
+import { TypedRoles } from '@/components/typed-roles'
+import { Magnetic } from '@/components/magnetic'
+import { ProjectList } from '@/components/project-list'
+import { XIcon } from '@/components/icons'
 import { siteConfig } from '@/lib/seo'
 import type { Metadata } from 'next'
+import type { CSSProperties } from 'react'
 
 export const metadata: Metadata = {
   title: `${siteConfig.name} — ${siteConfig.tagline}`,
@@ -25,7 +31,7 @@ export const metadata: Metadata = {
 const socials = [
   { href: siteConfig.socials.github, label: 'GitHub', icon: Github },
   { href: siteConfig.socials.linkedin, label: 'LinkedIn', icon: Linkedin },
-  { href: siteConfig.socials.twitter, label: 'Twitter', icon: Twitter },
+  { href: siteConfig.socials.twitter, label: 'X', icon: XIcon },
   { href: siteConfig.socials.instagram, label: 'Instagram', icon: Instagram },
 ]
 
@@ -36,52 +42,51 @@ export default function HomePage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 md:px-6 space-y-14">
 
-      {/* ── Hero ── */}
-      <section>
-        <SpaceSnake className="mb-10" />
-
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
-
-          {/* Avatar */}
-          <Link href="/about" className="group shrink-0 self-start" aria-label="About Pallab Das">
-            <div className="relative h-28 w-28 sm:h-36 sm:w-36">
+      {/* ── Hero: one orchestrated entrance, children cascade via --i ── */}
+      <section className="intro">
+        {/* photo sits to the left of the name */}
+        <div style={{ '--i': 0 } as CSSProperties} className="flex items-center gap-4 sm:gap-6">
+          <Link href="/about" className="group relative shrink-0" aria-label="About Pallab Das">
+            <div className="relative h-[72px] w-[72px] sm:h-28 sm:w-28">
               <Image
                 src="/pfp.jpg"
                 alt="Pallab Das"
                 fill
-                sizes="(max-width: 640px) 112px, 144px"
-                className="rounded-full object-cover ring-2 ring-border transition-all duration-300 group-hover:ring-primary/60 group-hover:scale-[1.03]"
+                sizes="(max-width: 640px) 72px, 112px"
+                quality={90}
+                className="rounded-full object-cover ring-2 ring-border transition-[box-shadow,scale] duration-300 ease-[var(--ease-out)] group-hover:scale-[1.06] group-hover:ring-primary/60"
                 priority
               />
             </div>
           </Link>
-
-          {/* Text */}
-          <div className="flex-1">
-            <h1 className="mb-1.5 text-3xl font-bold tracking-tight text-foreground">
-              Pallab Das
-            </h1>
-
-            <p className="mb-3 text-sm text-muted-foreground/80">
-              Full-Stack &amp; AI/ML Developer · Software Engineering student at VIT Vellore
-            </p>
-
-            <p className="max-w-lg text-base text-muted-foreground leading-relaxed">
-              Just a normal human being experimenting with AI tools, building things, breaking them,
-              and figuring out how it all works. This is my corner of the internet.
-            </p>
-          </div>
-
+          <DotName text="Pallab Das" />
         </div>
 
+        <div style={{ '--i': 1 } as CSSProperties}>
+          <TypedRoles className="mt-4 min-h-[1.5em]" />
+        </div>
+
+        <p
+          style={{ '--i': 2 } as CSSProperties}
+          className="mt-6 max-w-lg text-base leading-relaxed text-muted-foreground"
+        >
+          Just a normal human being experimenting with AI tools, building things, breaking them,
+          and figuring out how it all works. This is my corner of the internet.
+        </p>
+
         {/* ── Action bar — spans the full column so nothing is left hanging under the avatar ── */}
-        <div className="mt-7 flex flex-col gap-5 border-t border-border/60 pt-6 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-          <HireMe />
+        <div
+          style={{ '--i': 3 } as CSSProperties}
+          className="mt-7 flex flex-col gap-5 border-t border-border/60 pt-6 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+        >
+          <Magnetic strength={0.18}>
+            <HireMe />
+          </Magnetic>
 
           <div className="flex items-center gap-0.5 sm:gap-1">
             {socials.map(({ href, label, icon: Icon }) => (
+              <Magnetic key={label} strength={0.35}>
               <Link
-                key={label}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -91,6 +96,7 @@ export default function HomePage() {
               >
                 <Icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
               </Link>
+              </Magnetic>
             ))}
           </div>
         </div>
@@ -123,41 +129,7 @@ export default function HomePage() {
             see all <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
-        <div className="flex flex-col gap-10">
-          {featuredProjects.map((project) => {
-            const url = project.demo ?? project.github
-            const beats = project.highlights ?? [project.description]
-            return (
-              <div key={project.title}>
-                {url ? (
-                  <Link
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex w-fit items-center gap-2 text-[15px] font-medium text-foreground"
-                  >
-                    {project.title}
-                    <ArrowUpRight className="h-4 w-4 opacity-65 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100" />
-                  </Link>
-                ) : (
-                  <p className="text-[15px] font-medium text-foreground">{project.title}</p>
-                )}
-                <div className="relative mt-4 flex flex-col gap-4">
-                  <span
-                    aria-hidden
-                    className="absolute bottom-2 left-[2.5px] top-2 w-[1.5px] bg-muted-foreground/30"
-                  />
-                  {beats.map((beat) => (
-                    <div key={beat} className="relative flex gap-4">
-                      <span className="z-10 mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary-foreground ring-4 ring-background" />
-                      <p className="text-sm leading-relaxed text-muted-foreground">{beat}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )
-          })}
-        </div>
+        <ProjectList projects={featuredProjects} />
       </section>
 
       {/* ── Career ── */}
@@ -172,7 +144,7 @@ export default function HomePage() {
         <div className="relative flex flex-col gap-4">
           <span
             aria-hidden
-            className="absolute bottom-2 left-[2.5px] top-2 w-[1.5px] bg-muted-foreground/30"
+            className="rail absolute bottom-2 left-[2.5px] top-2 w-[1.5px] bg-muted-foreground/30"
           />
           {nowData.learning.map((item) => (
             <div key={item} className="relative flex gap-4">
@@ -211,6 +183,17 @@ export default function HomePage() {
             ))}
           </ul>
         )}
+      </section>
+
+      {/* ── Arcade: the snake lives down here now, out of the hero's way ── */}
+      <section>
+        <div className="mb-5 flex flex-col gap-1">
+          <h2 className="text-lg font-semibold tracking-tight text-foreground">Take a break</h2>
+          <p className="text-sm text-muted-foreground">
+            An astronaut snake that plays itself. Drop it a star, or grab the controls.
+          </p>
+        </div>
+        <SpaceSnake />
       </section>
 
     </div>

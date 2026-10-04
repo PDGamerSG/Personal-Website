@@ -43,11 +43,11 @@ interface Palette {
 
 const PALETTES: Record<ThemeName, Palette> = {
   dark: {
-    dot: '#a3aac0',
-    dotAlpha: 0.85,
-    head: [236, 132, 96],
-    tail: [140, 64, 48],
-    eye: '#1b120e',
+    dot: '#9aa3c7',
+    dotAlpha: 0.62,
+    head: [150, 160, 255],
+    tail: [38, 166, 154],
+    eye: '#0d1024',
     tongue: '#ff5d6c',
     helmet: '#dfe3ee',
     glass: '#ffffff',
@@ -59,10 +59,10 @@ const PALETTES: Record<ThemeName, Palette> = {
   },
   light: {
     dot: '#4a5370',
-    dotAlpha: 0.7,
-    head: [224, 112, 76],
-    tail: [150, 68, 46],
-    eye: '#1b120e',
+    dotAlpha: 0.5,
+    head: [79, 84, 230],
+    tail: [13, 148, 136],
+    eye: '#0d1024',
     tongue: '#e5484d',
     helmet: '#3d4459',
     glass: '#ffffff',
@@ -806,10 +806,11 @@ export class SnakeEngine {
       for (let j = 0; j < hrows; j++) {
         for (let i = 0; i < hcols; i++) {
           // a broad mask decides where debris lives, a finer layer breaks it into clumps
-          const mask = vnoise(i * 0.06 + time * 0.1, j * 0.09, 7)
-          const grain = vnoise(i * 0.34 - time * 0.25, j * 0.34 + time * 0.06, 13)
-          const n = mask * 0.55 + grain * 0.45
-          base[j * hcols + i] = Math.max(0, n - 0.64) * 2.6
+          const mask = vnoise(i * 0.045 + time * 0.05, j * 0.07, 7)
+          const grain = vnoise(i * 0.22 - time * 0.08, j * 0.22 + time * 0.03, 13)
+          const n = mask * 0.7 + grain * 0.3
+          // a faint even floor so the whole banner reads as one LED matrix
+          base[j * hcols + i] = 0.07 + Math.max(0, n - 0.66) * 1.1
         }
       }
     }
@@ -837,14 +838,14 @@ export class SnakeEngine {
         if (d > r) return 0
         const d2 = Math.hypot(dx - sx, dy - sy)
         const lit = clamp01((d2 - r2) / (r * 0.16))
-        return lit * (0.3 + 0.7 * (d / r)) * clamp01((r - d) / (r * 0.08))
+        return 0.8 * lit * (0.3 + 0.7 * (d / r)) * clamp01((r - d) / (r * 0.08))
       })
     }
 
     // ringed planet in the lower right, lit from the upper left
     {
-      const r = H * 0.4
-      const cx = W * 0.87 + Math.sin(time * 0.05) * H * 0.02
+      const r = H * 0.32
+      const cx = W * 0.88 + Math.sin(time * 0.05) * H * 0.02
       const cy = H * 0.95
       const a = r * 1.85
       const b = r * 0.36
@@ -860,7 +861,7 @@ export class SnakeEngine {
         const inRing = rho > 0.74 && rho < 1 && !(rho > 0.86 && rho < 0.89)
         const d2 = dx * dx + dy * dy
         const inPlanet = d2 < r * r
-        if (inRing && (qy > 0 || !inPlanet)) return 0.42 + 0.2 * (1 - rho)
+        if (inRing && (qy > 0 || !inPlanet)) return 0.3 + 0.2 * (1 - rho)
         if (!inPlanet) return 0
         const nx = dx / r
         const ny = dy / r
@@ -1008,6 +1009,17 @@ export class SnakeEngine {
     ctx.globalAlpha = clamp01((this.time - this.spawnT) / 0.4)
     const n = body.length
     const block = 4 * u
+
+    {
+      const [gx, gy] = this.cellCenter(body[0])
+      const R = this.cell * 2.2
+      const g = ctx.createRadialGradient(gx, gy, 0, gx, gy, R)
+      const [r, gr, b] = palette.head
+      g.addColorStop(0, `rgba(${r | 0},${gr | 0},${b | 0},0.32)`)
+      g.addColorStop(1, `rgba(${r | 0},${gr | 0},${b | 0},0)`)
+      ctx.fillStyle = g
+      ctx.fillRect(gx - R, gy - R, R * 2, R * 2)
+    }
 
     // body, tail first so the neck overlaps it
     for (let k = n - 1; k >= 1; k--) {

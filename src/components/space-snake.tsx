@@ -151,103 +151,126 @@ export function SpaceSnake({ className }: { className?: string }) {
   }
 
   const playing = hud.mode === 'play'
-  const hint =
-    hud.mode === 'over'
-      ? coarse
-        ? 'tap play to go again'
-        : 'press an arrow key to go again'
-      : playing
-        ? coarse
-          ? 'swipe to steer'
-          : 'esc hands it back to autopilot'
-        : coarse
-          ? 'tap to drop a star'
-          : 'click to drop a star · arrow keys to take over'
+  const over = hud.mode === 'over'
+  const status = playing ? 'you’re steering' : over ? 'game over' : 'autopilot'
 
   return (
     <div
-      ref={wrapRef}
       tabIndex={0}
       role="group"
       aria-roledescription="game"
       aria-label="Space snake. Click to drop a star for the snake to chase. Press an arrow key to steer it yourself, Escape to hand it back."
       onKeyDown={onKeyDown}
       onBlur={onBlur}
-      onPointerMove={(e) => {
-        if (e.pointerType !== 'mouse') return
-        const p = local(e)
-        engineRef.current?.setPointer(p.x, p.y)
-      }}
-      onPointerLeave={() => engineRef.current?.clearPointer()}
-      onPointerDown={onPointerDown}
-      onPointerUp={onPointerUp}
       className={cn(
-        'group/snake relative isolate aspect-[16/10] w-full cursor-crosshair select-none overflow-hidden rounded-2xl sm:aspect-[3/1]',
-        'border border-border/70 bg-[oklch(0.967_0.007_250)] dark:border-white/[0.07] dark:bg-[oklch(0.125_0.016_264)]',
-        'outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-        playing ? 'touch-none' : 'touch-pan-y',
+        'group/snake overflow-hidden rounded-2xl border border-border/70 bg-card/60 shadow-sm dark:border-white/[0.08]',
+        'outline-none transition-[border-color,box-shadow] duration-300 focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+        playing && 'border-primary/40 shadow-[0_0_0_4px_color-mix(in_oklch,var(--primary)_12%,transparent)] dark:border-primary/40',
         className,
       )}
     >
-      <canvas
-        ref={canvasRef}
-        aria-hidden
-        className={cn(
-          'absolute inset-0 h-full w-full transition-opacity duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]',
-          ready ? 'opacity-100' : 'opacity-0',
-        )}
-      />
-
-      {/* soft vignette so the edges fall off into the page */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_28px_2px_oklch(0.967_0.007_250)] dark:shadow-[inset_0_0_32px_2px_oklch(0.11_0.016_264)]"
-      />
-
-      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between px-3.5 pt-3 font-mono text-[11px] leading-none tracking-wide text-muted-foreground sm:px-4 sm:pt-3.5">
-        <span className="flex items-center gap-2">
-          <span
-            aria-hidden
-            className={cn(
-              'size-1.5 rounded-full transition-colors duration-300',
-              playing ? 'bg-[#e8845f]' : hud.mode === 'over' ? 'bg-destructive' : 'bg-muted-foreground/60',
+      {/* scoreboard */}
+      <div className="flex items-center justify-between gap-3 border-b border-border/60 px-4 py-2.5 font-mono text-[11px] leading-none tracking-wide dark:border-white/[0.06]">
+        <span className="flex items-center gap-2 text-muted-foreground">
+          <span aria-hidden className="relative flex size-2">
+            {playing && (
+              <span className="absolute inset-0 animate-ping rounded-full bg-primary/60 motion-reduce:hidden" />
             )}
-          />
-          {playing ? (
-            <span>
-              score <span className="tabular-nums text-foreground">{pad(hud.score)}</span>
-            </span>
-          ) : hud.mode === 'over' ? (
-            <span className="text-foreground">game over · {pad(hud.score)}</span>
-          ) : (
-            <span>autopilot</span>
-          )}
+            <span
+              className={cn(
+                'relative size-2 rounded-full transition-colors duration-300',
+                playing ? 'bg-primary' : over ? 'bg-destructive' : 'bg-emerald-400/80',
+              )}
+            />
+          </span>
+          <span className="text-foreground/90">space-snake</span>
+          <span className="text-muted-foreground/60">/</span>
+          <span>{status}</span>
         </span>
-        {hud.best > 0 && (
+        <span className="flex items-center gap-4 text-muted-foreground">
+          <span>
+            score{' '}
+            <span
+              key={hud.score}
+              className="inline-block tabular-nums text-foreground animate-in zoom-in-125 fade-in duration-200"
+            >
+              {pad(hud.score)}
+            </span>
+          </span>
           <span>
             best <span className="tabular-nums text-foreground/80">{pad(hud.best)}</span>
           </span>
+        </span>
+      </div>
+
+      {/* playfield */}
+      <div
+        ref={wrapRef}
+        onPointerMove={(e) => {
+          if (e.pointerType !== 'mouse') return
+          const p = local(e)
+          engineRef.current?.setPointer(p.x, p.y)
+        }}
+        onPointerLeave={() => engineRef.current?.clearPointer()}
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+        className={cn(
+          'relative isolate aspect-[16/10] w-full cursor-crosshair select-none overflow-hidden sm:aspect-[5/2]',
+          'bg-[oklch(0.967_0.007_250)] dark:bg-[oklch(0.125_0.016_264)]',
+          playing ? 'touch-none' : 'touch-pan-y',
+        )}
+      >
+        <canvas
+          ref={canvasRef}
+          aria-hidden
+          className={cn(
+            'absolute inset-0 h-full w-full transition-opacity duration-1000 ease-[var(--ease-out)]',
+            ready ? 'opacity-100' : 'opacity-0',
+          )}
+        />
+        {/* soft vignette so the edges fall off */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 shadow-[inset_0_0_28px_2px_oklch(0.967_0.007_250)] dark:shadow-[inset_0_0_36px_4px_oklch(0.11_0.016_264)]"
+        />
+        {over && (
+          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1 font-mono animate-in fade-in zoom-in-95 duration-300">
+            <span className="text-2xl font-medium tabular-nums text-foreground">{pad(hud.score)}</span>
+            <span className="text-[11px] tracking-wide text-muted-foreground">
+              {hud.score > 0 && hud.score >= hud.best ? 'new best' : 'stars caught'}
+            </span>
+          </div>
         )}
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 px-3.5 pb-3 sm:px-4 sm:pb-3.5">
-        <span
-          className={cn(
-            'font-mono text-[11px] leading-none tracking-wide text-muted-foreground transition-[opacity,translate] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
-            playing || hud.mode === 'over' || coarse
-              ? 'translate-y-0 opacity-100'
-              : 'translate-y-1 opacity-0 group-hover/snake:translate-y-0 group-hover/snake:opacity-100 group-focus-visible/snake:translate-y-0 group-focus-visible/snake:opacity-100',
-          )}
-        >
-          {hint}
-        </span>
+      {/* controls */}
+      <div className="flex items-center justify-between gap-3 border-t border-border/60 px-4 py-2.5 font-mono text-[11px] leading-none text-muted-foreground dark:border-white/[0.06]">
+        {coarse ? (
+          <span>{playing ? 'swipe to steer' : over ? 'tap play to go again' : 'tap to drop a star'}</span>
+        ) : (
+          <span className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+            <span className="flex items-center gap-1.5">
+              <span className="flex gap-0.5">
+                {['←', '↑', '↓', '→'].map((k) => (
+                  <kbd key={k} className="kbd">
+                    {k}
+                  </kbd>
+                ))}
+              </span>
+              {playing ? 'steer' : 'take over'}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <kbd className="kbd px-1.5">esc</kbd>
+              autopilot
+            </span>
+            <span className="hidden sm:inline">click to drop a star</span>
+          </span>
+        )}
         {coarse && (
           <button
             type="button"
-            onPointerDown={(e) => e.stopPropagation()}
-            onPointerUp={(e) => e.stopPropagation()}
             onClick={() => (playing ? engineRef.current?.exitPlay() : engineRef.current?.play())}
-            className="pointer-events-auto flex h-8 items-center gap-1.5 rounded-full border border-border/70 bg-background/70 px-3 font-mono text-[11px] text-foreground backdrop-blur-sm"
+            className="flex h-8 items-center gap-1.5 rounded-full border border-border/70 bg-background/70 px-3 text-foreground"
           >
             {playing ? <Square className="size-3" /> : <Play className="size-3" />}
             {playing ? 'stop' : 'play'}
@@ -256,7 +279,7 @@ export function SpaceSnake({ className }: { className?: string }) {
       </div>
 
       <p className="sr-only" aria-live="polite">
-        {hud.mode === 'over' ? `Game over. Score ${hud.score}.` : playing ? 'You are steering.' : ''}
+        {over ? `Game over. Score ${hud.score}.` : playing ? 'You are steering.' : ''}
       </p>
     </div>
   )

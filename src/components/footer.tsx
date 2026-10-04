@@ -1,10 +1,12 @@
 import Link from 'next/link'
-import { Github, Twitter, Linkedin, Instagram, FileText, Mail, type LucideIcon } from 'lucide-react'
+import { Github, Linkedin, Instagram, FileText, Mail } from 'lucide-react'
+import type { ComponentType, SVGProps } from 'react'
+import { XIcon } from '@/components/icons'
 import { gmailComposeUrl, siteConfig } from '@/lib/seo'
 
-const socialLinks: { href: string; label: string; icon: LucideIcon }[] = [
+const socialLinks: { href: string; label: string; icon: ComponentType<SVGProps<SVGSVGElement>> }[] = [
   { href: siteConfig.socials.github, label: 'GitHub', icon: Github },
-  { href: siteConfig.socials.twitter, label: 'Twitter / X', icon: Twitter },
+  { href: siteConfig.socials.twitter, label: 'X', icon: XIcon },
   { href: siteConfig.socials.linkedin, label: 'LinkedIn', icon: Linkedin },
   { href: siteConfig.socials.instagram, label: 'Instagram', icon: Instagram },
   { href: siteConfig.resume, label: 'Resume', icon: FileText },
