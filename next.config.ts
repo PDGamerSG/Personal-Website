@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
     '/opengraph-image': ['./public/pfp.jpg'],
     '/twitter-image': ['./public/pfp.jpg'],
   },
+  // Browsers (and their built-in PDF viewer on /resume) still ask for
+  // /favicon.ico; serve the app icon instead of a 404.
+  async rewrites() {
+    return [{ source: '/favicon.ico', destination: '/icon.png' }]
+  },
   async redirects() {
     return [
       { source: '/posts', destination: '/writing', permanent: true },

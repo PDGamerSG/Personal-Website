@@ -75,10 +75,9 @@ type Filter = typeof FILTERS[number]
 
 interface Props {
   results: TypingResult[]
-  avgWpm?: number
 }
 
-export function TypingChart({ results, avgWpm }: Props) {
+export function TypingChart({ results }: Props) {
   const [filter, setFilter] = useState<Filter>('All')
 
   const filtered = useMemo(() => {
