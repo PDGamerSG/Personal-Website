@@ -1,9 +1,10 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Fraunces, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
+import { MobileDock } from '@/components/mobile-dock'
 import { PageTransition } from '@/components/page-transition'
 import { siteConfig } from '@/lib/seo'
 
@@ -29,6 +30,11 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 const siteUrl = siteConfig.url
+
+/** cover: lets the mobile dock read the home-indicator inset via env(). */
+export const viewport: Viewport = {
+  viewportFit: 'cover',
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -157,6 +163,7 @@ export default function RootLayout({
           <Header />
           <PageTransition>{children}</PageTransition>
           <Footer />
+          <MobileDock />
         </ThemeProvider>
       </body>
     </html>

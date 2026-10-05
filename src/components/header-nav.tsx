@@ -7,23 +7,13 @@ import { cn } from '@/lib/utils'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { siteConfig } from '@/lib/seo'
 
-const navLinks: { href: string; label: string; external?: boolean }[] = [
+export const navLinks: { href: string; label: string; external?: boolean }[] = [
   { href: '/', label: 'Home' },
   { href: '/writing', label: 'Writing' },
   { href: '/projects', label: 'Projects' },
   { href: '/about', label: 'About' },
   { href: siteConfig.resume, label: 'Resume', external: true },
 ]
-
-function HamburgerIcon({ open }: { open: boolean }) {
-  return (
-    <div className="flex h-9 w-9 flex-col items-center justify-center gap-[5px]" aria-hidden>
-      <span className={cn('block h-[1.5px] w-5 rounded-full bg-foreground origin-center transition-all duration-300', open && 'translate-y-[6.5px] rotate-45')} />
-      <span className={cn('block h-[1.5px] w-5 rounded-full bg-foreground transition-all duration-300', open && 'opacity-0 scale-x-0')} />
-      <span className={cn('block h-[1.5px] w-5 rounded-full bg-foreground origin-center transition-all duration-300', open && '-translate-y-[6.5px] -rotate-45')} />
-    </div>
-  )
-}
 
 /** One period of the nav squiggle; tiled along the indicator as a mask so it takes the theme colour. */
 const WAVE =
@@ -47,7 +37,7 @@ function useSquiggle(active: string | null) {
 
     const place = (animate: boolean) => {
       const label = active ? labels.current.get(active) : undefined
-      // hidden (mobile) nav, or a page that isn't in the nav
+      // hidden nav (the header is desktop-only), or a page that isn't in the nav
       if (!label || !nav.offsetWidth) {
         el.style.opacity = '0'
         return
@@ -99,7 +89,6 @@ function useSquiggle(active: string | null) {
 
 export function HeaderNav() {
   const pathname = usePathname()
-  const [mobileOpen, setMobileOpen] = useState(false)
   // The squiggle heads for a link as soon as it's clicked, not once the next
   // page has finished loading. Stale once the route actually changes.
   const [pending, setPending] = useState<{ href: string; from: string } | null>(null)
@@ -143,46 +132,7 @@ export function HeaderNav() {
         />
       </nav>
 
-      {/* Right-side controls */}
-      <div className="flex items-center gap-1">
-        <ThemeToggle />
-        <button
-          className="flex h-9 w-9 items-center justify-center md:hidden"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
-          aria-expanded={mobileOpen}
-        >
-          <HamburgerIcon open={mobileOpen} />
-        </button>
-      </div>
-
-      {/* Mobile nav — slide down */}
-      <div className={cn(
-        'absolute top-full left-0 w-full overflow-hidden transition-all duration-300 ease-in-out md:hidden',
-        mobileOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
-      )}>
-        <nav className="border-t border-border/40 bg-background/95 backdrop-blur-sm px-4 py-3">
-          {navLinks.map(({ href, label, external }, i) => {
-            const active = pathname === href
-            return (
-              <Link
-                key={href}
-                href={href}
-                {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                onClick={() => setMobileOpen(false)}
-                style={{ transitionDelay: mobileOpen ? `${i * 40}ms` : '0ms' }}
-                className={cn(
-                  'flex items-center justify-between border-b border-border/30 py-3.5 text-base font-medium transition-all duration-200 last:border-0',
-                  active ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-                )}
-              >
-                <span>{label}</span>
-                {active && <span className="h-1.5 w-1.5 rounded-full bg-primary" />}
-              </Link>
-            )
-          })}
-        </nav>
-      </div>
+      <ThemeToggle />
     </>
   )
 }

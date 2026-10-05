@@ -132,6 +132,14 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
+    /* viewport-fit=cover: keep content clear of a landscape notch */
+    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+  }
+  /* room under the footer so the mobile dock never hides the end of a page */
+  @media (width < 48rem) {
+    body {
+      padding-bottom: calc(90px + env(safe-area-inset-bottom));
+    }
   }
   h1, h2 {
     font-family: var(--font-display);
@@ -163,9 +171,10 @@
   ::view-transition-new(root) {
     animation-name: theme-reveal;
   }
+  /* --reveal-at is set while a switch runs from the mobile dock's theme key */
   @keyframes theme-reveal {
-    from { clip-path: circle(0% at 50% 100%); }
-    to   { clip-path: circle(150% at 50% 100%); }
+    from { clip-path: circle(0% at var(--reveal-at, 50% 100%)); }
+    to   { clip-path: circle(150% at var(--reveal-at, 50% 100%)); }
   }
 
   /* ── Page transition ─────────────────────────────────────── */
@@ -277,4 +286,199 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .squiggle[data-moving] { animation: none; }
+}
+
+/* ── Mobile dock ────────────────────────────────────────────────────────── */
+
+:root {
+  --dock-surface: color-mix(in srgb, var(--card) 94%, transparent);
+  --dock-ring: color-mix(in oklch, var(--foreground) 10%, transparent);
+  --dock-rim: oklch(1 0 0 / 85%);
+  --dock-shade: oklch(0.3 0.03 250 / 12%);
+  --dock-snake: color-mix(in oklch, var(--primary) 12%, var(--card));
+}
+.dark {
+  --dock-rim: oklch(1 0 0 / 8%);
+  --dock-shade: oklch(0 0 0 / 40%);
+  --dock-snake: color-mix(in oklch, var(--primary) 20%, var(--card));
+}
+
+@layer components {
+  .dock {
+    position: fixed;
+    inset-inline: 0;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    padding-inline: max(8px, env(safe-area-inset-left)) max(8px, env(safe-area-inset-right));
+    pointer-events: none;
+  }
+
+  .dock-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: max-content;
+    max-width: 100%;
+    padding: 6px;
+    border: 1px solid var(--dock-ring);
+    border-radius: 999px;
+    background: var(--dock-surface);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    box-shadow:
+      inset 0 1px 0 var(--dock-rim),
+      0 2px 4px var(--dock-shade),
+      0 12px 24px -8px var(--dock-shade);
+    pointer-events: auto;
+    animation: dockRise 0.45s var(--ease-out) 0.1s backwards;
+  }
+
+  .dock-bar {
+    position: relative;
+    display: flex;
+    flex: 0 0 auto;
+    min-width: 0;
+    padding: 4px;
+  }
+
+  .dock-snake {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    border-radius: 999px;
+    background: var(--dock-snake);
+    opacity: 0;
+    pointer-events: none;
+    transition-duration: 0.32s;
+    transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  .dock-tab,
+  .dock-action {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 999px;
+    color: var(--foreground);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    transition:
+      color 0.18s ease,
+      background-color 0.18s ease,
+      scale 0.16s var(--ease-out);
+  }
+  .dock-tab { flex: 1 0 44px; }
+  .dock-tab svg,
+  .dock-action svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 1.8;
+  }
+  .dock-tab[data-active],
+  .dock-resume { color: var(--primary); }
+  .dock-tab[data-active] svg {
+    fill: color-mix(in oklch, currentColor 10%, transparent);
+  }
+  .dock-tab:hover,
+  .dock-action:hover,
+  .dock-tab:active,
+  .dock-action:active { transform: none; }
+  .dock-tab:active,
+  .dock-action:active { scale: 0.92; }
+  .dock-tab:focus-visible,
+  .dock-action:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  .dock-divider {
+    width: 1px;
+    height: 28px;
+    flex-shrink: 0;
+    background: var(--dock-ring);
+  }
+  @media (width < 340px) {
+    .dock-row {
+      gap: 3px;
+      padding: 4px;
+    }
+  }
+
+  .dock-tooltip {
+    position: absolute;
+    bottom: calc(100% + 16px);
+    left: 50%;
+    translate: -50% 4px;
+    padding: 6px 10px;
+    border: 1px solid var(--dock-ring);
+    border-radius: 8px;
+    background: var(--popover);
+    color: var(--popover-foreground);
+    box-shadow: 0 4px 12px var(--dock-shade);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s ease, translate 0.2s var(--ease-out), visibility 0.15s;
+  }
+  .dock-tab:focus-visible .dock-tooltip,
+  .dock-action:focus-visible .dock-tooltip {
+    opacity: 1;
+    visibility: visible;
+    translate: -50% 0;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .dock-tab:hover,
+    .dock-action:hover { background: var(--accent); }
+    .dock-tab:hover .dock-tooltip,
+    .dock-action:hover .dock-tooltip {
+      opacity: 1;
+      visibility: visible;
+      translate: -50% 0;
+    }
+  }
+
+  .dock-swap {
+    position: relative;
+    width: 20px;
+    height: 20px;
+  }
+  .dock-swap svg {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    rotate: -90deg;
+    scale: 0.5;
+    transition:
+      opacity 0.2s ease,
+      rotate 0.35s var(--ease-out),
+      scale 0.35s var(--ease-out);
+  }
+  .dock-swap svg[data-shown] {
+    opacity: 1;
+    rotate: 0deg;
+    scale: 1;
+  }
+}
+
+@keyframes dockRise {
+  from { translate: 0 12px; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dock-row { animation: none; }
+  .dock-snake,
+  .dock-tab,
+  .dock-action,
+  .dock-tooltip,
+  .dock-swap svg { transition: none !important; }
 }
