@@ -13,6 +13,7 @@ import { TypedRoles } from '@/components/typed-roles'
 import { Magnetic } from '@/components/magnetic'
 import { ProjectList } from '@/components/project-list'
 import { XIcon } from '@/components/icons'
+import { EscMascot } from '@/components/esc-mascot'
 import { siteConfig } from '@/lib/seo'
 import type { Metadata } from 'next'
 import type { CSSProperties } from 'react'
@@ -66,39 +67,38 @@ export default function HomePage() {
           <TypedRoles className="mt-4 min-h-[1.5em]" />
         </div>
 
-        <p
-          style={{ '--i': 2 } as CSSProperties}
-          className="mt-6 max-w-lg text-base leading-relaxed text-muted-foreground"
-        >
-          Just a normal human being experimenting with AI tools, building things, breaking them,
-          and figuring out how it all works. This is my corner of the internet.
-        </p>
+        <div style={{ '--i': 2 } as CSSProperties} className="intro-workshop">
+          <p className="intro-description text-base leading-relaxed text-muted-foreground">
+            Just a normal human being experimenting with AI tools, building things, breaking them,
+            and figuring out how it all works. This is my corner of the internet.
+          </p>
 
-        {/* ── Action bar — spans the full column so nothing is left hanging under the avatar ── */}
-        <div
-          style={{ '--i': 3 } as CSSProperties}
-          className="mt-7 flex flex-col gap-5 border-t border-border/60 pt-6 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
-        >
-          <Magnetic strength={0.18}>
-            <HireMe />
-          </Magnetic>
+          {/* ── Action bar — spans the full column so nothing is left hanging under the avatar ── */}
+          <div
+            className="intro-actions flex flex-col gap-5 border-t border-border/60 pt-6 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+          >
+            <Magnetic strength={0.18}>
+              <HireMe />
+            </Magnetic>
 
-          <div className="flex items-center gap-0.5 sm:gap-1">
-            {socials.map(({ href, label, icon: Icon }) => (
-              <Magnetic key={label} strength={0.35}>
-              <Link
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                title={label}
-                className="group flex h-9 w-9 items-center justify-center rounded-full border border-transparent text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-border/70 hover:bg-secondary/60 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-              >
-                <Icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
-              </Link>
-              </Magnetic>
-            ))}
+            <div className="flex items-center gap-0.5 sm:gap-1">
+              {socials.map(({ href, label, icon: Icon }) => (
+                <Magnetic key={label} strength={0.35}>
+                <Link
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  title={label}
+                  className="group flex h-9 w-9 items-center justify-center rounded-full border border-transparent text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-border/70 hover:bg-secondary/60 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                >
+                  <Icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+                </Link>
+                </Magnetic>
+              ))}
+            </div>
           </div>
+          <EscMascot />
         </div>
       </section>
 
