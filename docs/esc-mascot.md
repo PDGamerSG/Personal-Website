@@ -1,6 +1,6 @@
 # ESC, the keycap hermit
 
-The homepage's cobalt Esc keycap is a Blender-made mascot with a tiny workshop inside. It sits beside the introduction on wide screens and below the hiring links on phones. The portrait, interactive name, typed roles, quote, navigation, and space snake retain their existing behavior.
+The homepage's cobalt Esc keycap is a Blender-made mascot with a tiny workshop inside. On phones it is a 96px companion opposite the portrait, with the name below; tablets use 112px. At 1024px it moves into the right page margin at 128px, increasing to 160px at 1280px. It scrolls with the hero and never floats over the mobile dock. The introduction and hiring links keep the full content width. The portrait, interactive name, typed roles, quote, navigation, and space snake retain their existing behavior.
 
 ## Files and behavior
 

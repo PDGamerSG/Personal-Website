@@ -45,8 +45,8 @@ export default function HomePage() {
 
       {/* ── Hero: one orchestrated entrance, children cascade via --i ── */}
       <section className="intro">
-        {/* photo sits to the left of the name */}
-        <div style={{ '--i': 0 } as CSSProperties} className="flex items-center gap-4 sm:gap-6">
+        {/* ESC shares the portrait row on phones and moves into the desktop margin. */}
+        <div style={{ '--i': 0 } as CSSProperties} className="intro-identity">
           <Link href="/about" className="group relative shrink-0" aria-label="About Pallab Das">
             <div className="relative h-[72px] w-[72px] sm:h-28 sm:w-28">
               <Image
@@ -60,7 +60,8 @@ export default function HomePage() {
               />
             </div>
           </Link>
-          <DotName text="Pallab Das" />
+          <EscMascot />
+          <DotName text="Pallab Das" className="intro-name" />
         </div>
 
         <div style={{ '--i': 1 } as CSSProperties}>
@@ -98,7 +99,6 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <EscMascot />
         </div>
       </section>
 
