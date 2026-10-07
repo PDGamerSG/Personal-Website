@@ -103,7 +103,7 @@ export function EscMascot() {
             alt=""
             width={640}
             height={640}
-            sizes="(max-width: 640px) 220px, 260px"
+            sizes="(min-width: 1280px) 160px, (min-width: 1024px) 128px, (min-width: 640px) 112px, 96px"
             unoptimized
             className={ready && !reducedMotion ? 'invisible' : ''}
           />
@@ -116,7 +116,6 @@ export function EscMascot() {
         <span className="esc-mascot-caption" aria-hidden="true">
           <span className="font-mono text-foreground/70">esc</span>
           <span className="text-muted-foreground/50">/</span>
-          <span>{open ? 'little ideas inside' : 'a little maker'}</span>
           <span className="esc-mascot-hint text-primary">{open ? 'close ↗' : 'peek ↗'}</span>
         </span>
       </button>

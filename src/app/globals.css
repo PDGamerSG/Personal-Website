@@ -234,17 +234,20 @@
 
 /* ── Motion ─────────────────────────────────────────────────────────────── */
 
-/* ESC occupies its own space; the portrait, name, and hiring links stay primary. */
-.intro-workshop {
+/* A small portrait companion on phones; a margin resident on wide screens. */
+.intro-identity {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  column-gap: 1.25rem;
-  margin-top: 1.5rem;
+  gap: 0.5rem 1rem;
 }
-.intro-description { grid-row: 1; max-width: 32rem; }
-.intro-actions { grid-row: 2; margin-top: 1.5rem; }
-.esc-mascot { grid-row: 3; justify-self: center; width: 220px; margin-top: 1.25rem; }
+.intro-identity > a { justify-self: start; }
+.intro-name { grid-column: 1 / -1; min-width: 0; }
+.intro-workshop { margin-top: 1.5rem; }
+.intro-description { max-width: 32rem; }
+.intro-actions { margin-top: 1.75rem; }
+.esc-mascot { width: 96px; justify-self: end; }
 .esc-mascot-button {
   display: block;
   width: 100%;
@@ -282,10 +285,15 @@
 }
 .esc-mascot-hint { white-space: nowrap; }
 @media (min-width: 640px) {
-  .intro-workshop { grid-template-columns: minmax(0, 1fr) 250px; margin-top: 0.25rem; }
-  .intro-description { grid-column: 1; }
-  .esc-mascot { grid-column: 2; grid-row: 1; width: 250px; margin-top: 0; }
-  .intro-actions { grid-column: 1 / -1; margin-top: 1rem; }
+  .esc-mascot { width: 112px; }
+}
+@media (min-width: 1024px) {
+  .intro-identity { grid-template-columns: auto minmax(0, 1fr); gap: 1.5rem; }
+  .intro-name { grid-column: 2; }
+  .esc-mascot { position: absolute; top: 4.5rem; left: calc(100% + 24px); width: 128px; }
+}
+@media (min-width: 1280px) {
+  .esc-mascot { top: 5rem; left: calc(100% + 32px); width: 160px; }
 }
 
 /* Hero intro: one orchestrated load sequence, children cascade in. */
