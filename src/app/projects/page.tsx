@@ -3,6 +3,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
 import { projects, type Project } from '@/lib/projects'
+import { hackathons } from '@/lib/hackathons'
+import { HackathonBadges } from '@/components/hackathon-badges'
 import { absoluteUrl, siteConfig } from '@/lib/seo'
 
 export const metadata: Metadata = {
@@ -43,18 +45,31 @@ const jsonLd = {
   },
   mainEntity: {
     '@type': 'ItemList',
-    itemListElement: projects.map((project, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      item: {
-        '@type': 'SoftwareSourceCode',
+    itemListElement: [
+      ...projects.map((project) => ({
         name: project.title,
         description: project.description,
         url: project.demo ?? project.github ?? absoluteUrl('/projects'),
         codeRepository: project.github,
         programmingLanguage: project.tags,
+        image: project.image,
+      })),
+      ...hackathons.map((hack) => ({
+        name: hack.project,
+        description: `${hack.tagline} Built at ${hack.event}${hack.won ? ', where it won' : ''}.`,
+        url: hack.demo ?? hack.github ?? absoluteUrl('/projects'),
+        codeRepository: hack.github,
+        programmingLanguage: hack.tags,
+        image: hack.image,
+      })),
+    ].map(({ image, ...item }, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'SoftwareSourceCode',
+        ...item,
         author: { '@id': `${siteConfig.url}/#person` },
-        ...(project.image ? { image: absoluteUrl(project.image) } : {}),
+        ...(image ? { image: absoluteUrl(image) } : {}),
       },
     })),
   },
@@ -237,6 +252,16 @@ export default function ProjectsPage() {
           <FeaturedCard key={project.title} project={project} hero={i === 0} />
         ))}
       </div>
+
+      <section className="mt-14">
+        <div className="mb-5 flex flex-col gap-1">
+          <h2 className="text-lg font-semibold tracking-tight text-foreground">Hackathons</h2>
+          <p className="text-sm text-muted-foreground">
+            Weekend builds with Team Vulcan. Two of them won.
+          </p>
+        </div>
+        <HackathonBadges hackathons={hackathons} />
+      </section>
 
       <section className="mt-14">
         <div className="mb-2 flex flex-col gap-1">

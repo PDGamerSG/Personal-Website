@@ -350,6 +350,126 @@
   .squiggle[data-moving] { animation: none; }
 }
 
+/* ── Hackathon badges ───────────────────────────────────────────────────── */
+
+/* Phones swipe through the badges; from sm up they share one row. */
+.badge-rail {
+  display: flex;
+  gap: 1rem;
+  margin-inline: -1rem;
+  /* top room keeps the hooks from being clipped by the scroller */
+  padding: 4px 1rem 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1rem;
+  scrollbar-width: none;
+}
+.badge-rail::-webkit-scrollbar { display: none; }
+@media (min-width: 640px) {
+  .badge-rail {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow: visible;
+  }
+}
+
+.badge-slot {
+  position: relative;
+  flex: 0 0 min(78vw, 280px);
+  scroll-snap-align: center;
+}
+/* the rail: each slot draws its own stretch so it keeps going while you swipe */
+.badge-slot::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -0.5rem;
+  right: -0.5rem;
+  height: 1px;
+  background: var(--border);
+}
+.badge-hook {
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  z-index: 2;
+  width: 7px;
+  height: 7px;
+  translate: -50% 0;
+  border-radius: 999px;
+  background: var(--muted-foreground);
+}
+
+.badge-hang {
+  position: relative;
+  height: 100%;
+  padding-top: 26px;
+  transform-origin: 50% 0;
+  rotate: var(--tilt, 0deg);
+  transition: rotate 0.7s var(--ease-out);
+}
+/* woven lanyard from the hook down to the clip */
+.badge-strap {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 12px;
+  height: 32px;
+  translate: -50% 0;
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklch, var(--primary) 65%, black) 0 2px,
+    var(--primary) 2px calc(100% - 2px),
+    color-mix(in oklch, var(--primary) 65%, black) calc(100% - 2px)
+  );
+}
+.badge-clip {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  z-index: 1;
+  width: 22px;
+  height: 14px;
+  translate: -50% 0;
+  border-radius: 4px;
+  border: 1px solid color-mix(in oklch, var(--muted-foreground) 60%, transparent);
+  background: linear-gradient(180deg, var(--card), var(--muted));
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
+}
+
+/* hover sets the badge swinging, then it settles straight */
+@media (hover: hover) {
+  .badge-hang:hover {
+    rotate: 0deg;
+    animation: badgeSwing 1.2s cubic-bezier(0.3, 0.6, 0.4, 1);
+  }
+}
+.badge-hang:focus-within { rotate: 0deg; }
+@keyframes badgeSwing {
+  0%   { rotate: var(--tilt, 0deg); }
+  28%  { rotate: calc(var(--tilt, 0deg) * -2); }
+  52%  { rotate: calc(var(--tilt, 0deg) * 1.1); }
+  74%  { rotate: calc(var(--tilt, 0deg) * -0.45); }
+  100% { rotate: 0deg; }
+}
+
+.badge-stamp { rotate: -14deg; opacity: 0.88; }
+/* the stamp thumps down as its badge scrolls into view */
+@keyframes stampLand {
+  0%   { opacity: 0; scale: 1.9; }
+  60%  { opacity: 0.95; scale: 0.94; }
+  100% { opacity: 0.88; scale: 1; }
+}
+@supports (animation-timeline: view()) {
+  .badge-stamp {
+    animation: stampLand linear both;
+    animation-timeline: view();
+    animation-range: entry 40% cover 30%;
+  }
+}
+
 /* ── Mobile dock ────────────────────────────────────────────────────────── */
 
 :root {

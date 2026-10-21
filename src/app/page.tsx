@@ -12,6 +12,8 @@ import { DotName } from '@/components/dot-name'
 import { TypedRoles } from '@/components/typed-roles'
 import { Magnetic } from '@/components/magnetic'
 import { ProjectList } from '@/components/project-list'
+import { HackathonBadges } from '@/components/hackathon-badges'
+import { hackathons } from '@/lib/hackathons'
 import { XIcon } from '@/components/icons'
 import { EscMascot } from '@/components/esc-mascot'
 import { siteConfig } from '@/lib/seo'
@@ -130,6 +132,17 @@ export default function HomePage() {
           </Link>
         </div>
         <ProjectList projects={featuredProjects} />
+      </section>
+
+      {/* ── Hackathons ── */}
+      <section>
+        <div className="mb-5 flex flex-col gap-1">
+          <h2 className="text-lg font-semibold tracking-tight text-foreground">Hackathons</h2>
+          <p className="text-sm text-muted-foreground">
+            Weekend builds with Team Vulcan. Two of them won.
+          </p>
+        </div>
+        <HackathonBadges hackathons={hackathons} />
       </section>
 
       {/* ── Career ── */}
