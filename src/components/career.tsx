@@ -27,15 +27,6 @@ const clientSites = [
   },
 ]
 
-/** Every month the role covered, first to last, inclusive. */
-function monthsBetween(from: Date, to: Date): Date[] {
-  const months: Date[] = []
-  for (let d = new Date(from); d <= to; d = new Date(d.getFullYear(), d.getMonth() + 1)) {
-    months.push(d)
-  }
-  return months
-}
-
 /** Inclusive month count between two dates, as "5 mos" / "1 yr 2 mos". */
 function duration(from: Date, to: Date): string {
   const months =
@@ -49,8 +40,6 @@ function duration(from: Date, to: Date): string {
 const monthLabel = (d: Date) => d.toLocaleString('en-US', { month: 'short' })
 
 export function Career() {
-  const months = monthsBetween(START, END)
-
   return (
     <section>
       <div className="mb-5 flex flex-col gap-1">
@@ -91,23 +80,7 @@ export function Career() {
               {END.getFullYear()} · {duration(START, END)}
             </span>
 
-            {/* one cell per month served, all filled now that it is done */}
-            <ol
-              aria-label={`${months.length} of ${months.length} months completed`}
-              className="mt-2.5 grid max-w-sm gap-1"
-              style={{ gridTemplateColumns: `repeat(${months.length}, minmax(0, 1fr))` }}
-            >
-              {months.map((m) => (
-                <li key={`${m.getFullYear()}-${m.getMonth()}`} className="flex flex-col gap-1.5">
-                  <span className="h-1.5 rounded-full bg-primary/80" />
-                  <span className="text-[10px] tabular-nums text-muted-foreground/80">
-                    {monthLabel(m)}
-                  </span>
-                </li>
-              ))}
-            </ol>
-
-            <div className="mt-2 text-muted-foreground leading-relaxed">
+            <div className="mt-1 text-muted-foreground leading-relaxed">
               <span className="block">
                 Worked across the stack on Biz Trade Mart&apos;s platforms:
               </span>
