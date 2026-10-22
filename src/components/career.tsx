@@ -5,7 +5,7 @@ import { ArrowUpRight, Check } from 'lucide-react'
 const START = new Date(2026, 4) // May 2026
 const END = new Date(2026, 9) // Oct 2026
 
-/** Client sites I built and shipped during the internship. */
+/** Client sites built and shipped as freelance work. */
 const clientSites = [
   {
     name: 'Vastex Cleaning Services',
@@ -109,7 +109,7 @@ export function Career() {
 
             <div className="mt-2 text-muted-foreground leading-relaxed">
               <span className="block">
-                Worked across the stack on Biz Trade Mart&apos;s platforms and client work:
+                Worked across the stack on Biz Trade Mart&apos;s platforms:
               </span>
               <ul className="mt-1 list-none space-y-0.5 [&_li]:relative [&_li]:pl-4 [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:content-['–'] [&_li]:before:text-muted-foreground/80">
                 <li>
@@ -120,11 +120,32 @@ export function Career() {
                   Worked on the backend of Re:BTM, the B2B trade marketplace, with Django services
                   powering the store, auctions and real-time chat
                 </li>
-                <li>Built and shipped three client websites, linked below</li>
               </ul>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <ul className="mt-4 grid gap-3 sm:grid-cols-3">
+      <div className="mt-12 flex flex-col gap-1">
+        <span className="font-medium text-foreground">Freelance</span>
+        <p className="text-xs text-muted-foreground">Independent client work</p>
+      </div>
+
+      <div className="pt-6">
+        <div className="flex gap-3">
+          <div className="relative flex w-6 shrink-0 flex-col items-center pt-1.5">
+            <div className="h-1.5 w-1.5 shrink-0 rounded-full border border-secondary-foreground/70" />
+          </div>
+
+          <div className="flex min-w-0 flex-1 flex-col gap-1 text-sm">
+            <span className="font-medium text-foreground">Web Developer</span>
+            <span className="text-muted-foreground">
+              Freelance · {clientSites.length} client sites
+            </span>
+            <span className="mt-1 block text-muted-foreground leading-relaxed">
+              Built and shipped websites for these clients:
+            </span>
+            <ul className="mt-3 grid gap-3 sm:grid-cols-3">
               {clientSites.map((site) => (
                 <li key={site.name}>
                   <Link
