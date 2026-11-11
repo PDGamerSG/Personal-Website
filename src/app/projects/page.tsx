@@ -281,7 +281,7 @@ export default function ProjectsPage() {
               >
                 design.pallabdas.me
               </Link>
-              , each one a small WebGL world you can play with.
+              . Small WebGL worlds you can play with.
             </p>
           </div>
           <Link

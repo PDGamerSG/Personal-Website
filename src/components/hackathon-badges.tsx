@@ -3,6 +3,7 @@ import Image from 'next/image'
 import type { CSSProperties } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { PLACE_LABEL, type Hackathon } from '@/lib/hackathons'
+import { BadgeRail } from '@/components/badge-rail'
 
 /** Resting angle of each badge on the rail, so the row hangs a little unevenly. */
 const TILTS = ['-1.6deg', '1.2deg', '-0.8deg', '1.4deg']
@@ -134,7 +135,7 @@ function Badge({ hack, tilt }: { hack: Hackathon; tilt: string }) {
                 src={hack.image}
                 alt={`Screenshot of ${hack.project}`}
                 fill
-                sizes="(max-width: 640px) 78vw, 320px"
+                sizes="(max-width: 640px) 78vw, 210px"
                 className="object-cover transition-transform duration-500 ease-[var(--ease-out)] group-hover:scale-[1.04]"
                 style={{ objectPosition: hack.imagePosition ?? 'top' }}
               />
@@ -184,15 +185,15 @@ function Badge({ hack, tilt }: { hack: Hackathon; tilt: string }) {
 }
 
 /**
- * Hackathon projects as conference badges hanging from a rail. Placings get
- * an ink stamp that lands when the row scrolls into view.
+ * Hackathon projects as conference badges hanging from one rail. Placings
+ * get an ink stamp that lands when the row scrolls into view.
  */
 export function HackathonBadges({ hackathons }: { hackathons: Hackathon[] }) {
   return (
-    <ul className="badge-rail">
+    <BadgeRail label="Hackathon projects">
       {hackathons.map((hack, i) => (
         <Badge key={hack.project} hack={hack} tilt={TILTS[i % TILTS.length]} />
       ))}
-    </ul>
+    </BadgeRail>
   )
 }

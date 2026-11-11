@@ -352,7 +352,10 @@
 
 /* ── Hackathon badges ───────────────────────────────────────────────────── */
 
-/* Phones swipe through the badges; from sm up they hang two to a rail. */
+/*
+ * The badges hang in one row you swipe or step through. From sm up three
+ * fit the column and the next one peeks in at the edge.
+ */
 .badge-rail {
   display: flex;
   gap: 1rem;
@@ -365,21 +368,27 @@
   scrollbar-width: none;
 }
 .badge-rail::-webkit-scrollbar { display: none; }
-@media (min-width: 640px) {
-  .badge-rail {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2.25rem 1.25rem;
-    margin-inline: 0;
-    padding-inline: 0;
-    overflow: visible;
-  }
+/* fade whichever end still has badges past it */
+.badge-rail[data-more='end'] {
+  mask-image: linear-gradient(90deg, #000 calc(100% - 3rem), transparent);
+}
+.badge-rail[data-more='start'] {
+  mask-image: linear-gradient(90deg, transparent, #000 3rem);
+}
+.badge-rail[data-more='both'] {
+  mask-image: linear-gradient(90deg, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
 }
 
 .badge-slot {
   position: relative;
   flex: 0 0 min(78vw, 280px);
   scroll-snap-align: center;
+}
+@media (min-width: 640px) {
+  .badge-slot {
+    flex-basis: calc((100% - 2rem) / 3.2);
+    scroll-snap-align: start;
+  }
 }
 /* the rail: each slot draws its own stretch so it keeps going while you swipe */
 .badge-slot::before {
@@ -390,9 +399,6 @@
   right: -0.5rem;
   height: 1px;
   background: var(--border);
-}
-@media (min-width: 640px) {
-  .badge-slot::before { left: -0.625rem; right: -0.625rem; }
 }
 .badge-hook {
   position: absolute;
@@ -477,10 +483,9 @@
 /* ── Design reel ────────────────────────────────────────────────────────── */
 
 /*
- * The design studies run past on a strip of film. It breaks out of the text
- * column so the screenshots get room, and fades out at both ends. Each frame
- * is a whole number of sprocket periods wide, so when the loop jumps back by
- * one set the holes land exactly where they were.
+ * The design studies run past on a strip of film that fades out at both
+ * ends. Each frame is a whole number of sprocket periods wide, so when the
+ * loop jumps back by one set the holes land exactly where they were.
  */
 .reel {
   --film: oklch(0.17 0.008 60);
@@ -495,18 +500,16 @@
   scrollbar-width: none;
   mask-image: linear-gradient(90deg, transparent, #000 1.25rem, #000 calc(100% - 1.25rem), transparent);
 }
+/* from sm up the strip stays inside the text column and fades at its edges */
+@media (min-width: 640px) {
+  .reel {
+    margin-inline: 0;
+    mask-image: linear-gradient(90deg, transparent, #000 2.5rem, #000 calc(100% - 2.5rem), transparent);
+  }
+}
 /* in dark mode the film sits a shade above the page, or its holes vanish */
 .dark .reel { --film: oklch(0.245 0.012 60); }
 .reel::-webkit-scrollbar { display: none; }
-@media (min-width: 640px) {
-  .reel {
-    --frame-w: calc(var(--sprocket) * 16);
-    --reel-w: min(calc(100vw - 3rem), 72rem);
-    width: var(--reel-w);
-    margin-inline: calc((100% - var(--reel-w)) / 2);
-    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-  }
-}
 
 .reel-track {
   display: flex;
