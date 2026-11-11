@@ -2,25 +2,47 @@ import Link from 'next/link'
 import Image from 'next/image'
 import type { CSSProperties } from 'react'
 import { ArrowUpRight } from 'lucide-react'
-import type { Hackathon } from '@/lib/hackathons'
+import { PLACE_LABEL, type Hackathon } from '@/lib/hackathons'
 
 /** Resting angle of each badge on the rail, so the row hangs a little unevenly. */
-const TILTS = ['-1.6deg', '1.2deg', '-0.8deg']
+const TILTS = ['-1.6deg', '1.2deg', '-0.8deg', '1.4deg']
 
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-')
 
+/** The ring text fits at this size up to this many characters, then shrinks to stay one lap. */
+const RING_FONT = 10.5
+const RING_CHARS = 31
+
 /**
- * Rubber-stamp seal for a win. The filter roughens the edges and knocks
- * small holes into the ink, the way a real stamp never prints evenly.
+ * Rubber-stamp seal for a placing. The filter roughens the edges and knocks
+ * small holes into the ink, the way a real stamp never prints evenly. A win
+ * carries a star in the middle, second place a big "2nd". On a dark
+ * screenshot the ink would sink in, so the seal gets a paper disc behind it.
  */
-function WinnerStamp({ id, label }: { id: string; label: string }) {
-  const ring = `WINNER • ${label.toUpperCase()} • `
+function ResultStamp({
+  id,
+  place,
+  label,
+  backed = false,
+}: {
+  id: string
+  place: 1 | 2
+  label: string
+  backed?: boolean
+}) {
+  const ring = `${PLACE_LABEL[place].toUpperCase()} • ${label.toUpperCase()} • `
+  const fontSize = Math.min(RING_FONT, (RING_FONT * RING_CHARS) / ring.length)
   return (
     <svg
       viewBox="0 0 100 100"
       aria-hidden
-      className="badge-stamp pointer-events-none absolute -bottom-8 -right-4 z-10 w-[96px] text-primary mix-blend-multiply dark:mix-blend-normal"
+      className={`badge-stamp pointer-events-none absolute -bottom-8 -right-4 z-10 w-[96px] text-primary ${
+        backed
+          ? 'drop-shadow-[0_3px_6px_rgb(0_0_0/0.35)]'
+          : 'mix-blend-multiply dark:mix-blend-normal'
+      }`}
     >
+      {backed && <circle cx="50" cy="50" r="48.5" className="fill-card" />}
       <defs>
         <path id={`${id}-ring`} d="M50,50 m-35,0 a35,35 0 1,1 70,0 a35,35 0 1,1 -70,0" />
         <filter id={`${id}-ink`} x="-10%" y="-10%" width="120%" height="120%">
@@ -39,7 +61,7 @@ function WinnerStamp({ id, label }: { id: string; label: string }) {
         <circle cx="50" cy="50" r="47" fill="none" strokeWidth="3" />
         <circle cx="50" cy="50" r="42.5" fill="none" strokeWidth="1" />
         <text
-          fontSize="10.5"
+          fontSize={fontSize.toFixed(2)}
           fontWeight="800"
           stroke="none"
           style={{ fontFamily: 'var(--font-sans)' }}
@@ -49,11 +71,28 @@ function WinnerStamp({ id, label }: { id: string; label: string }) {
           </textPath>
         </text>
         <circle cx="50" cy="50" r="24" fill="none" strokeWidth="1.5" />
-        {/* five-point star */}
-        <path
-          stroke="none"
-          d="M50 33.5l4.3 9.6 10.4 1.1-7.8 7 2.2 10.3L50 56.2l-9.1 5.3 2.2-10.3-7.8-7 10.4-1.1z"
-        />
+        {place === 1 ? (
+          /* five-point star */
+          <path
+            stroke="none"
+            d="M50 33.5l4.3 9.6 10.4 1.1-7.8 7 2.2 10.3L50 56.2l-9.1 5.3 2.2-10.3-7.8-7 10.4-1.1z"
+          />
+        ) : (
+          <text
+            x="50"
+            y="57"
+            textAnchor="middle"
+            fontSize="19"
+            fontWeight="800"
+            stroke="none"
+            style={{ fontFamily: 'var(--font-sans)', letterSpacing: '-0.04em' }}
+          >
+            {place}
+            <tspan fontSize="9" dy="-7.5" dx="0.5">
+              ND
+            </tspan>
+          </text>
+        )}
       </g>
     </svg>
   )
@@ -84,7 +123,9 @@ function Badge({ hack, tilt }: { hack: Hackathon; tilt: string }) {
             <p className="mt-0.5 text-xs text-muted-foreground">
               {hack.where} · {hack.date}
             </p>
-            {hack.won && <p className="sr-only">Won this hackathon.</p>}
+            {hack.place && (
+              <p className="sr-only">{hack.place === 1 ? 'Won this hackathon.' : 'Placed second.'}</p>
+            )}
           </div>
 
           <div className="relative mt-3">
@@ -93,12 +134,19 @@ function Badge({ hack, tilt }: { hack: Hackathon; tilt: string }) {
                 src={hack.image}
                 alt={`Screenshot of ${hack.project}`}
                 fill
-                sizes="(max-width: 640px) 78vw, 210px"
+                sizes="(max-width: 640px) 78vw, 320px"
                 className="object-cover transition-transform duration-500 ease-[var(--ease-out)] group-hover:scale-[1.04]"
                 style={{ objectPosition: hack.imagePosition ?? 'top' }}
               />
             </div>
-            {hack.won && <WinnerStamp id={id} label={`${hack.short} • ${hack.date.slice(-4)}`} />}
+            {hack.place && (
+              <ResultStamp
+                id={id}
+                place={hack.place}
+                label={`${hack.short} • ${hack.date.slice(-4)}`}
+                backed={hack.imageDark}
+              />
+            )}
           </div>
 
           <h3 className="mt-4 text-[15px] font-medium text-foreground">
@@ -136,8 +184,8 @@ function Badge({ hack, tilt }: { hack: Hackathon; tilt: string }) {
 }
 
 /**
- * Hackathon projects as conference badges hanging from one rail. Wins get an
- * ink stamp that lands when the row scrolls into view.
+ * Hackathon projects as conference badges hanging from a rail. Placings get
+ * an ink stamp that lands when the row scrolls into view.
  */
 export function HackathonBadges({ hackathons }: { hackathons: Hackathon[] }) {
   return (

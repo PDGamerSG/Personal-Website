@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getAllPosts } from '@/lib/posts'
 import { projects } from '@/lib/projects'
-import { ArrowRight, Github, Linkedin, Instagram } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Github, Linkedin, Instagram } from 'lucide-react'
 import { nowData } from '@/lib/now'
 import { StatStrip } from '@/components/stat-strip'
 import { Career } from '@/components/career'
@@ -14,6 +14,8 @@ import { Magnetic } from '@/components/magnetic'
 import { ProjectList } from '@/components/project-list'
 import { HackathonBadges } from '@/components/hackathon-badges'
 import { hackathons } from '@/lib/hackathons'
+import { DesignReel } from '@/components/design-reel'
+import { designSite } from '@/lib/designs'
 import { XIcon } from '@/components/icons'
 import { EscMascot } from '@/components/esc-mascot'
 import { siteConfig } from '@/lib/seo'
@@ -134,12 +136,42 @@ export default function HomePage() {
         <ProjectList projects={featuredProjects} />
       </section>
 
+      {/* ── Design: the studies from design.pallabdas.me on a strip of film ── */}
+      <section>
+        <div className="mb-5 flex items-end justify-between gap-4">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-lg font-semibold tracking-tight text-foreground">Design lab</h2>
+            <p className="text-sm text-muted-foreground">
+              UI studies from{' '}
+              <Link
+                href={designSite.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-primary"
+              >
+                design.pallabdas.me
+              </Link>
+              , each one a small WebGL world you can play with.
+            </p>
+          </div>
+          <Link
+            href={designSite.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex shrink-0 items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          >
+            see all <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </Link>
+        </div>
+        <DesignReel />
+      </section>
+
       {/* ── Hackathons ── */}
       <section>
         <div className="mb-5 flex flex-col gap-1">
           <h2 className="text-lg font-semibold tracking-tight text-foreground">Hackathons</h2>
           <p className="text-sm text-muted-foreground">
-            Weekend builds with Team Vulcan. Two of them won.
+            Weekend builds with Team Vulcan. Two wins and a second place.
           </p>
         </div>
         <HackathonBadges hackathons={hackathons} />

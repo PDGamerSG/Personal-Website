@@ -5,6 +5,8 @@ import { ArrowUpRight } from 'lucide-react'
 import { projects, type Project } from '@/lib/projects'
 import { hackathons } from '@/lib/hackathons'
 import { HackathonBadges } from '@/components/hackathon-badges'
+import { DesignReel } from '@/components/design-reel'
+import { designSite } from '@/lib/designs'
 import { absoluteUrl, siteConfig } from '@/lib/seo'
 
 export const metadata: Metadata = {
@@ -56,7 +58,9 @@ const jsonLd = {
       })),
       ...hackathons.map((hack) => ({
         name: hack.project,
-        description: `${hack.tagline} Built at ${hack.event}${hack.won ? ', where it won' : ''}.`,
+        description: `${hack.tagline} Built at ${hack.event}${
+          hack.place === 1 ? ', where it won' : hack.place === 2 ? ', where it placed second' : ''
+        }.`,
         url: hack.demo ?? hack.github ?? absoluteUrl('/projects'),
         codeRepository: hack.github,
         programmingLanguage: hack.tags,
@@ -257,10 +261,39 @@ export default function ProjectsPage() {
         <div className="mb-5 flex flex-col gap-1">
           <h2 className="text-lg font-semibold tracking-tight text-foreground">Hackathons</h2>
           <p className="text-sm text-muted-foreground">
-            Weekend builds with Team Vulcan. Two of them won.
+            Weekend builds with Team Vulcan. Two wins and a second place.
           </p>
         </div>
         <HackathonBadges hackathons={hackathons} />
+      </section>
+
+      <section className="mt-14">
+        <div className="mb-5 flex items-end justify-between gap-4">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-lg font-semibold tracking-tight text-foreground">Design lab</h2>
+            <p className="text-sm text-muted-foreground">
+              UI studies from{' '}
+              <Link
+                href={designSite.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-primary"
+              >
+                design.pallabdas.me
+              </Link>
+              , each one a small WebGL world you can play with.
+            </p>
+          </div>
+          <Link
+            href={designSite.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex shrink-0 items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          >
+            see all <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </Link>
+        </div>
+        <DesignReel />
       </section>
 
       <section className="mt-14">

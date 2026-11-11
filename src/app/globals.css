@@ -352,7 +352,7 @@
 
 /* ── Hackathon badges ───────────────────────────────────────────────────── */
 
-/* Phones swipe through the badges; from sm up they share one row. */
+/* Phones swipe through the badges; from sm up they hang two to a rail. */
 .badge-rail {
   display: flex;
   gap: 1rem;
@@ -368,7 +368,8 @@
 @media (min-width: 640px) {
   .badge-rail {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.25rem 1.25rem;
     margin-inline: 0;
     padding-inline: 0;
     overflow: visible;
@@ -389,6 +390,9 @@
   right: -0.5rem;
   height: 1px;
   background: var(--border);
+}
+@media (min-width: 640px) {
+  .badge-slot::before { left: -0.625rem; right: -0.625rem; }
 }
 .badge-hook {
   position: absolute;
@@ -468,6 +472,136 @@
     animation-timeline: view();
     animation-range: entry 40% cover 30%;
   }
+}
+
+/* ── Design reel ────────────────────────────────────────────────────────── */
+
+/*
+ * The design studies run past on a strip of film. It breaks out of the text
+ * column so the screenshots get room, and fades out at both ends. Each frame
+ * is a whole number of sprocket periods wide, so when the loop jumps back by
+ * one set the holes land exactly where they were.
+ */
+.reel {
+  --film: oklch(0.17 0.008 60);
+  --film-edge: oklch(0.8 0.13 68);
+  --sprocket: 16px;
+  --frame-w: calc(var(--sprocket) * 13);
+  position: relative;
+  margin-inline: -1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1rem;
+  scrollbar-width: none;
+  mask-image: linear-gradient(90deg, transparent, #000 1.25rem, #000 calc(100% - 1.25rem), transparent);
+}
+/* in dark mode the film sits a shade above the page, or its holes vanish */
+.dark .reel { --film: oklch(0.245 0.012 60); }
+.reel::-webkit-scrollbar { display: none; }
+@media (min-width: 640px) {
+  .reel {
+    --frame-w: calc(var(--sprocket) * 16);
+    --reel-w: min(calc(100vw - 3rem), 72rem);
+    width: var(--reel-w);
+    margin-inline: calc((100% - var(--reel-w)) / 2);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+}
+
+.reel-track {
+  display: flex;
+  width: max-content;
+  padding-inline: 1rem;
+}
+.reel-set { display: flex; }
+/* the copy that makes the loop seamless only exists while the reel drifts */
+.reel-set[aria-hidden] { display: none; }
+
+.reel-frame {
+  position: relative;
+  flex: 0 0 auto;
+  width: calc(var(--frame-w) + var(--sprocket));
+  padding: 26px calc(var(--sprocket) / 2);
+  background: var(--film);
+  scroll-snap-align: center;
+}
+/* sprocket holes along both edges, cut in the page colour */
+.reel-frame::before,
+.reel-frame::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 7px;
+  background: var(--background);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='7'%3E%3Crect x='4' width='8' height='7' rx='1.6'/%3E%3C/svg%3E") repeat-x 0 0 / var(--sprocket) 7px;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='7'%3E%3Crect x='4' width='8' height='7' rx='1.6'/%3E%3C/svg%3E") repeat-x 0 0 / var(--sprocket) 7px;
+}
+.reel-frame::before { top: 6px; }
+.reel-frame::after { bottom: 6px; }
+
+/* edge print, the way film stock numbers its frames */
+.reel-edge {
+  position: absolute;
+  left: calc(var(--sprocket) / 2);
+  right: calc(var(--sprocket) / 2);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--film-edge);
+  opacity: 0.85;
+  pointer-events: none;
+}
+.reel-edge-top { top: 14px; }
+.reel-edge-bottom { bottom: 14px; }
+
+.reel-shot {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 3px;
+  background: oklch(0.22 0.01 60);
+  outline: none;
+}
+.reel-shot img {
+  transition: scale 0.6s var(--ease-out), filter 0.4s var(--ease-out);
+  filter: saturate(0.9) brightness(0.92);
+}
+.reel-caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 28px 10px 8px;
+  background: linear-gradient(transparent, oklch(0 0 0 / 0.78));
+  color: oklch(0.97 0 0);
+  translate: 0 6px;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-out), translate 0.4s var(--ease-out);
+}
+.reel-shot:hover img,
+.reel-shot:focus-visible img { scale: 1.05; filter: none; }
+.reel-shot:hover .reel-caption,
+.reel-shot:focus-visible .reel-caption { opacity: 1; translate: 0 0; }
+.reel-shot:focus-visible { box-shadow: 0 0 0 2px var(--film), 0 0 0 4px var(--ring); }
+/* touch screens get no hover, so the caption stays up */
+@media (hover: none) {
+  .reel-caption { opacity: 1; translate: 0 0; }
+  .reel-shot img { filter: none; }
+}
+
+/* Desktop: the strip drifts on its own and stops while you look. */
+@media (hover: hover) and (min-width: 640px) and (prefers-reduced-motion: no-preference) {
+  .reel { overflow: hidden; }
+  .reel-set[aria-hidden] { display: flex; }
+  .reel-track { padding-inline: 0; animation: reelDrift var(--reel-duration, 80s) linear infinite; }
+  .reel:hover .reel-track,
+  .reel:focus-within .reel-track { animation-play-state: paused; }
+}
+@keyframes reelDrift {
+  to { translate: -50% 0; }
 }
 
 /* ── Mobile dock ────────────────────────────────────────────────────────── */
