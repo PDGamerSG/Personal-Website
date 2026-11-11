@@ -43,6 +43,8 @@ const socials = [
 export default function HomePage() {
   const posts = getAllPosts().slice(0, 4)
   const featuredProjects = projects.slice(0, 4)
+  // placings come first in the list, so the homepage keeps those and the newest build
+  const featuredHackathons = hackathons.slice(0, 4)
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 md:px-6 space-y-14">
@@ -168,13 +170,18 @@ export default function HomePage() {
 
       {/* ── Hackathons ── */}
       <section>
-        <div className="mb-5 flex flex-col gap-1">
-          <h2 className="text-lg font-semibold tracking-tight text-foreground">Hackathons</h2>
-          <p className="text-sm text-muted-foreground">
-            Weekend builds with Team Vulcan. Two wins and a second place.
-          </p>
+        <div className="mb-5 flex items-end justify-between gap-4">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-lg font-semibold tracking-tight text-foreground">Hackathons</h2>
+            <p className="text-sm text-muted-foreground">
+              Weekend builds with Team Vulcan. Two wins and a second place.
+            </p>
+          </div>
+          <Link href="/projects" className="group flex shrink-0 items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground">
+            see all {hackathons.length} <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+          </Link>
         </div>
-        <HackathonBadges hackathons={hackathons} />
+        <HackathonBadges hackathons={featuredHackathons} />
       </section>
 
       {/* ── Career ── */}
